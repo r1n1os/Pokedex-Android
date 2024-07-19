@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -92,11 +93,17 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.agp)
+    implementation(libs.hilt.navigation.compose)
     /**
      * Coroutines
      * */
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
+    /**
+     * Navigation
+     * */
+    implementation(libs.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
     /**
      * Testing
      * */
