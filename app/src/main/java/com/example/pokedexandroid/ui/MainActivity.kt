@@ -15,7 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.pokedexandroid.routes.PokemonListScreen
-import com.example.pokedexandroid.ui.pokemon_list_screen.PokemonListScreen
+import com.example.pokedexandroid.ui.PokemonListScreen.PokemonListScreen
 import com.example.pokedexandroid.ui.theme.PokedexAndroidTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.Serializable
