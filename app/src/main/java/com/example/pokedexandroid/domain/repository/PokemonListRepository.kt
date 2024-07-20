@@ -1,10 +1,13 @@
 package com.example.pokedexandroid.domain.repository
 
+import android.net.Uri
 import com.example.pokedexandroid.data.LocalDatabase.PokemonDatabase
 import com.example.pokedexandroid.data.LocalDatabase.PokemonEntity.PokemonEntity
 import com.example.pokedexandroid.data.remote.PokemonList.PokemonListApi
 import com.example.pokedexandroid.data.remote.PokemonList.PokemonListResponse
+import com.example.pokedexandroid.utils.Constants
 import com.example.pokedexandroid.utils.Resource
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class PokemonListRepository @Inject constructor(
@@ -14,18 +17,34 @@ class PokemonListRepository @Inject constructor(
 
     suspend fun executeRequestToGetPokemonList(): Resource<MutableList<PokemonEntity>> {
         val pokemonListApiResponse: PokemonListResponse = pokemonListApi.getListOfPokemon()
-        return Resource.Success(data = pokemonListApiResponse.results)
-/*        if(pokemonEntityList)
-        return try {
-            val pokemonService =
-                if (url == null) pokemonService.getPokemon() else pokemonService.getPokemon(url)
-            val nextUrl = pokemonService.nextUrl
-            val pokemonEntityList = pokemonService.results
-            savePokemon(pokemonEntityList = pokemonEntityList)
+        if (pokemonListApiResponse.results != null) {
+            var pokemonEntityList:MutableList<PokemonEntity> = mutableListOf()
+            savePokemonIntoLocalDatabase(pokemonListApiResponse.results).collect { retrievedPokemonEntityList ->
+                pokemonEntityList = retrievedPokemonEntityList.toMutableList()
+            }
+            return Resource.Success(
+                data = pokemonEntityList,
+                nextUrl = pokemonListApiResponse.nextUrl
+            )
+        } else {
+            return Resource.Error(message = "Something went wrong")
+        }
+    }
 
-            Resource.Success(data = myRoomDatabase.pokemonDao().getAllPokemon(), nextUrl = nextUrl)
-        } catch (e: Exception) {
-            Resource.Error(message = handlingError.handleErrorMessage(e))
-        }*/
+    private suspend fun savePokemonIntoLocalDatabase(pokemonEntityList: MutableList<PokemonEntity>) =
+        flow {
+            pokemonEntityList.forEach { pokemonEntity ->
+                pokemonEntity.photoUrl = getPokemonImageUrl(pokemonEntity.extraInfoUrl ?: "")
+                pokemonDatabase.pokemonDao.insertPokemonEntity(pokemonEntity)
+            }
+            emit(pokemonDatabase.pokemonDao.getListOfPokemon())
+        }
+
+    private  fun getPokemonImageUrl(extraInfoUrl: String): String {
+        val pokemonUri: Uri =  Uri.parse(extraInfoUrl ?: "")
+        val pathSegments: List<String> = pokemonUri.pathSegments;
+        val pokemonId: String = pathSegments[pathSegments.size - 1];
+        return "${Constants.POKEMON_IMAGE_BASE_URL}$pokemonId.png"
     }
 }
+

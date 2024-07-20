@@ -105,6 +105,10 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
     /**
+     * Glide Image Network Loader
+     * */
+    implementation(libs.glide.compose)
+    /**
      * Testing
      * */
     testImplementation(libs.junit)

@@ -9,16 +9,14 @@ import androidx.room.Transaction
 @Dao
 interface PokemonDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertListOfPokemon(pokemonEntityList: List<PokemonEntity>)
-
-
+    suspend fun insertPokemonEntity(pokemonEntity: PokemonEntity)
 
     @Transaction
     @Query("SELECT * From pokemon")
     suspend fun getListOfPokemon(): List<PokemonEntity>
 
     @Transaction
-    @Query("SELECT * From pokemon WHERE id=:pokemonId")
-    suspend fun getPokemonById(pokemonId: Int): PokemonEntity
+    @Query("SELECT * From pokemon WHERE name=:pokemonName")
+    suspend fun getPokemonById(pokemonName: Int): PokemonEntity
 
 }

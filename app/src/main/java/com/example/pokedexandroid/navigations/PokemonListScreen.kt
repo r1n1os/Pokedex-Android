@@ -1,4 +1,4 @@
-package com.example.pokedexandroid.routes
+package com.example.pokedexandroid.navigations
 
 import kotlinx.serialization.Serializable
 
