@@ -15,8 +15,8 @@ class PokemonListRepository @Inject constructor(
     private val pokemonDatabase: PokemonDatabase
 ) {
 
-    suspend fun executeRequestToGetPokemonList(): Resource<MutableList<PokemonEntity>> {
-        val pokemonListApiResponse: PokemonListResponse = pokemonListApi.getListOfPokemon()
+    suspend fun executeRequestToGetPokemonList(nextUrl: String?): Resource<MutableList<PokemonEntity>> {
+        val pokemonListApiResponse: PokemonListResponse = if(nextUrl == null)  pokemonListApi.getListOfPokemon() else pokemonListApi.getNextListOfPokemon(nextUrl)
         if (pokemonListApiResponse.results != null) {
             var pokemonEntityList:MutableList<PokemonEntity> = mutableListOf()
             savePokemonIntoLocalDatabase(pokemonListApiResponse.results).collect { retrievedPokemonEntityList ->
