@@ -16,9 +16,12 @@ class PokemonListRepository @Inject constructor(
 ) {
 
     suspend fun executeRequestToGetPokemonList(nextUrl: String?): Resource<MutableList<PokemonEntity>> {
-        val pokemonListApiResponse: PokemonListResponse = if(nextUrl == null)  pokemonListApi.getListOfPokemon() else pokemonListApi.getNextListOfPokemon(nextUrl)
+        val pokemonListApiResponse: PokemonListResponse =
+            if (nextUrl == null) pokemonListApi.getListOfPokemon() else pokemonListApi.getNextListOfPokemon(
+                nextUrl
+            )
         if (pokemonListApiResponse.results != null) {
-            var pokemonEntityList:MutableList<PokemonEntity> = mutableListOf()
+            var pokemonEntityList: MutableList<PokemonEntity> = mutableListOf()
             savePokemonIntoLocalDatabase(pokemonListApiResponse.results).collect { retrievedPokemonEntityList ->
                 pokemonEntityList = retrievedPokemonEntityList.toMutableList()
             }
@@ -40,8 +43,8 @@ class PokemonListRepository @Inject constructor(
             emit(pokemonDatabase.pokemonDao.getListOfPokemon())
         }
 
-    private  fun getPokemonImageUrl(extraInfoUrl: String): String {
-        val pokemonUri: Uri =  Uri.parse(extraInfoUrl ?: "")
+    private fun getPokemonImageUrl(extraInfoUrl: String): String {
+        val pokemonUri: Uri = Uri.parse(extraInfoUrl ?: "")
         val pathSegments: List<String> = pokemonUri.pathSegments;
         val pokemonId: String = pathSegments[pathSegments.size - 1];
         return "${Constants.POKEMON_IMAGE_BASE_URL}$pokemonId.png"
