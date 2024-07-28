@@ -32,6 +32,7 @@ import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity
+import com.example.pokedexandroid.domain.model.PokemonList
 import com.example.pokedexandroid.navigations.PokemonDetailsScreen
 
 @ExperimentalGlideComposeApi
@@ -87,7 +88,7 @@ fun PokemonListScreen(
 @Composable
 private fun PokemonCell(
     navController: NavController,
-    pokemon: PokemonEntity
+    pokemon: PokemonList
 ) {
     Card(
         modifier =
