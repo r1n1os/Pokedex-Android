@@ -1,4 +1,4 @@
-package com.example.pokedexandroid.data.remote.PokemonList
+package com.example.pokedexandroid.data.remote.pokemon_list
 
 import retrofit2.http.GET
 import retrofit2.http.Url

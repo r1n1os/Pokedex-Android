@@ -1,9 +1,9 @@
-package com.example.pokedexandroid.data.LocalDatabase
+package com.example.pokedexandroid.data.local_database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.pokedexandroid.data.LocalDatabase.PokemonEntity.PokemonDao
-import com.example.pokedexandroid.data.LocalDatabase.PokemonEntity.PokemonEntity
+import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonDao
+import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity
 
 @Database(
     entities = [PokemonEntity::class,],

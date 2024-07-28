@@ -2,7 +2,7 @@ package com.example.pokedexandroid.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.pokedexandroid.data.LocalDatabase.PokemonDatabase
+import com.example.pokedexandroid.data.local_database.PokemonDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

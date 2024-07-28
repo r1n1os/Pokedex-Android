@@ -1,8 +1,6 @@
-package com.example.pokedexandroid.data.LocalDatabase.PokemonEntity
+package com.example.pokedexandroid.data.local_database.pokemon_entity
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert

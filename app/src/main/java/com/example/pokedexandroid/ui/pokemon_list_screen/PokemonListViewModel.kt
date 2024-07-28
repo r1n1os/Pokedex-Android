@@ -1,4 +1,4 @@
-package com.example.pokedexandroid.ui.PokemonListScreen
+package com.example.pokedexandroid.ui.pokemon_list_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

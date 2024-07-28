@@ -10,8 +10,8 @@ import androidx.navigation.compose.rememberNavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.example.pokedexandroid.navigations.PokemonDetailsScreen
 import com.example.pokedexandroid.navigations.PokemonListScreen
-import com.example.pokedexandroid.ui.PokemonDetailsScreen.PokemonDetailsScreen
-import com.example.pokedexandroid.ui.PokemonListScreen.PokemonListScreen
+import com.example.pokedexandroid.ui.pokemon_details_screen.PokemonDetailsScreen
+import com.example.pokedexandroid.ui.pokemon_list_screen.PokemonListScreen
 import com.example.pokedexandroid.ui.theme.PokedexAndroidTheme
 import dagger.hilt.android.AndroidEntryPoint
 

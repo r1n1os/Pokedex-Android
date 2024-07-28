@@ -1,6 +1,6 @@
-package com.example.pokedexandroid.ui.PokemonListScreen
+package com.example.pokedexandroid.ui.pokemon_list_screen
 
-import com.example.pokedexandroid.data.LocalDatabase.PokemonEntity.PokemonEntity
+import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity
 
 data class PokemonListState(
     val isLoading: Boolean = false,

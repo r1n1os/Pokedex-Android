@@ -1,8 +1,8 @@
 package com.example.pokedexandroid.di
 
-import com.example.pokedexandroid.data.LocalDatabase.PokemonDatabase
-import com.example.pokedexandroid.data.remote.PokemonDetails.PokemonDetailsApi
-import com.example.pokedexandroid.data.remote.PokemonList.PokemonListApi
+import com.example.pokedexandroid.data.local_database.PokemonDatabase
+import com.example.pokedexandroid.data.remote.pokemon_details.PokemonDetailsApi
+import com.example.pokedexandroid.data.remote.pokemon_list.PokemonListApi
 import com.example.pokedexandroid.domain.repository.PokemonDetailsRepository
 import com.example.pokedexandroid.domain.repository.PokemonListRepository
 import dagger.Module

@@ -1,10 +1,10 @@
 package com.example.pokedexandroid.domain.repository
 
 import android.net.Uri
-import com.example.pokedexandroid.data.LocalDatabase.PokemonDatabase
-import com.example.pokedexandroid.data.LocalDatabase.PokemonEntity.PokemonEntity
-import com.example.pokedexandroid.data.remote.PokemonList.PokemonListApi
-import com.example.pokedexandroid.data.remote.PokemonList.PokemonListResponse
+import com.example.pokedexandroid.data.local_database.PokemonDatabase
+import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity
+import com.example.pokedexandroid.data.remote.pokemon_list.PokemonListApi
+import com.example.pokedexandroid.data.remote.pokemon_list.PokemonListResponse
 import com.example.pokedexandroid.utils.Constants
 import com.example.pokedexandroid.utils.Resource
 import kotlinx.coroutines.flow.flow

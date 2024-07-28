@@ -1,4 +1,4 @@
-package com.example.pokedexandroid.ui.PokemonDetailsScreen
+package com.example.pokedexandroid.ui.pokemon_details_screen
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -26,7 +26,7 @@ class PokemonDetailsViewModel @Inject constructor(
             if (pokemonDetailsUrl != null) {
                 val response =
                     pokemonDetailsRepository.executeRequestToGetPokemonDetails(pokemonDetailsUrl = pokemonDetailsUrl)
-                Log.d("RESULT", response.data?.name ?: "No response")
+                Log.d("RESULT", response.data?.id.toString() ?: "No response")
             }
         }
 }

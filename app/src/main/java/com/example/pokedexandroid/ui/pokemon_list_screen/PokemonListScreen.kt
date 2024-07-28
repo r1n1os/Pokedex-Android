@@ -1,4 +1,4 @@
-package com.example.pokedexandroid.ui.PokemonListScreen
+package com.example.pokedexandroid.ui.pokemon_list_screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,9 +31,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.example.pokedexandroid.data.LocalDatabase.PokemonEntity.PokemonEntity
+import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity
 import com.example.pokedexandroid.navigations.PokemonDetailsScreen
-import com.example.pokedexandroid.ui.PokemonDetailsScreen.PokemonDetailsScreen
 
 @ExperimentalGlideComposeApi
 @Composable

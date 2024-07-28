@@ -1,4 +1,4 @@
-package com.example.pokedexandroid.ui.PokemonDetailsScreen
+package com.example.pokedexandroid.ui.pokemon_details_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
