@@ -15,7 +15,7 @@ data class PokemonDetailsDto(
             name = name,
             order = order,
             extraInfoUrl = "",
-            photoUrl = ""
+            photoUrl = "",
         )
     }
 }

@@ -1,5 +1,6 @@
 package com.example.pokedexandroid.data.repository
 
+import android.util.Log
 import com.example.pokedexandroid.data.local_database.PokemonDatabase
 import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity
 import com.example.pokedexandroid.data.remote.pokemon_details.PokemonDetailsApi
@@ -22,6 +23,8 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
 
         savePokemonDetailsIntoLocalDatabase(pokemonDetailsResponse).collect { pokemonEntity ->
             pokemonDetails = pokemonEntity.toPokemonDetails()
+            val test = pokemonDatabase.pokemonDao.loadPokemonEntityWithItsStats(pokemonDetailsResponse.name)
+            Log.d("dfsdf", test.toString())
         }
 
         return Resource.Success(

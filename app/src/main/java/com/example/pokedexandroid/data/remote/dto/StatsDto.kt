@@ -10,10 +10,11 @@ data class StatsDto(
     @SerializedName("stat")
     val stat: StatDto
 ) {
-    fun toStatsEntity(): StatsEntity {
+    fun toStatsEntity(pokemonName: String): StatsEntity {
         return StatsEntity(
             name = stat.name,
             value = statValue,
+            pokemonEntityName = pokemonName,
             id = -1 // Here we are specifying id to be -1 as the StatsEntity Id is autoIncrement
         )
     }

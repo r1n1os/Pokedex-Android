@@ -13,7 +13,7 @@ import javax.inject.Inject
 class PokemonListRepositoryImpl @Inject constructor(
     private val pokemonListApi: PokemonListApi,
     private val pokemonDatabase: PokemonDatabase
-): PokemonListRepository {
+) : PokemonListRepository {
 
 
     override suspend fun executeRequestToGetPokemonList(nextUrl: String?): Resource<MutableList<PokemonList>> {
@@ -23,9 +23,10 @@ class PokemonListRepositoryImpl @Inject constructor(
                 if (nextUrl == null) pokemonListApi.getListOfPokemon() else pokemonListApi.getNextListOfPokemon(
                     nextUrl
                 )
-            savePokemonIntoLocalDatabase(requestResponse.results ?: mutableListOf())
-            getPokemonFromLocalDatabase().collect { pokemonEntityList ->
-                pokemonList = pokemonEntityList.map { it.toPokemonList() }.toMutableList()
+            savePokemonIntoLocalDatabase(requestResponse.results ?: mutableListOf()).collect {
+                getPokemonFromLocalDatabase().collect { pokemonEntityList ->
+                    pokemonList = pokemonEntityList.map { it.toPokemonList() }.toMutableList()
+                }
             }
             Resource.Success(
                 data = pokemonList,
