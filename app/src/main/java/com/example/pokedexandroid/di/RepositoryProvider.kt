@@ -1,14 +1,11 @@
 package com.example.pokedexandroid.di
 
-import com.example.pokedexandroid.data.local_database.PokemonDatabase
-import com.example.pokedexandroid.data.remote.pokemon_details.PokemonDetailsApi
-import com.example.pokedexandroid.data.remote.pokemon_list.PokemonListApi
-import com.example.pokedexandroid.domain.repository.PokemonDetailsRepository
+import com.example.pokedexandroid.data.repository.PokemonDetailsRepositoryImpl
 import com.example.pokedexandroid.data.repository.PokemonListRepositoryImpl
+import com.example.pokedexandroid.domain.repository.PokemonDetailsRepository
 import com.example.pokedexandroid.domain.repository.PokemonListRepository
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -23,12 +20,9 @@ abstract class RepositoryProvider {
         pokemonListRepositoryImpl: PokemonListRepositoryImpl
     ): PokemonListRepository
 
-  /*  @Provides
+    @Binds
     @Singleton
-    fun providePokemonDetailsRepository(
-        pokemonDetailsApi: PokemonDetailsApi,
-        pokemonDatabase: PokemonDatabase
-    ): PokemonDetailsRepository {
-        return PokemonDetailsRepository(pokemonDetailsApi, pokemonDatabase)
-    }*/
+    abstract fun providePokemonDetailsRepository(
+        pokemonDetailsRepositoryImpl: PokemonDetailsRepositoryImpl
+    ): PokemonDetailsRepository
 }

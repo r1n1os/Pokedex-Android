@@ -2,6 +2,7 @@ package com.example.pokedexandroid.data.local_database.pokemon_entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.pokedexandroid.domain.model.PokemonDetails
 import com.example.pokedexandroid.domain.model.PokemonList
 import com.google.gson.annotations.SerializedName
 
@@ -18,6 +19,13 @@ data class PokemonEntity(
             name = name,
             extraInfoUrl = extraInfoUrl ?: "",
             photoUrl = photoUrl ?: ""
+        )
+    }
+
+    fun toPokemonDetails(): PokemonDetails {
+        return PokemonDetails(
+            name = name,
+            order = order,
         )
     }
 }

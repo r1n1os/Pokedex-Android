@@ -1,4 +1,4 @@
-package com.example.pokedexandroid.data.remote.dto_models
+package com.example.pokedexandroid.data.remote.dto
 
 import android.net.Uri
 import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity

@@ -1,6 +1,6 @@
 package com.example.pokedexandroid.data.remote.pokemon_details
 
-import com.example.pokedexandroid.data.remote.dto_models.PokemonDetailsDto
+import com.example.pokedexandroid.data.remote.dto.PokemonDetailsDto
 import retrofit2.http.GET
 import retrofit2.http.Url
 

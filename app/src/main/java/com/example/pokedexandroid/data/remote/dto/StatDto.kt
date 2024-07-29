@@ -1,4 +1,4 @@
-package com.example.pokedexandroid.data.remote.dto_models
+package com.example.pokedexandroid.data.remote.dto
 
 data class StatDto(
     val name: String,

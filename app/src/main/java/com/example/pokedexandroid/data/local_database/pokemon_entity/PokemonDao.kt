@@ -16,6 +16,12 @@ interface PokemonDao {
 
     @Transaction
     @Query("SELECT * From pokemon WHERE name=:pokemonName")
-    suspend fun getPokemonById(pokemonName: Int): PokemonEntity
+    suspend fun getPokemonById(pokemonName: String): PokemonEntity
 
+    /**
+     * Updating only price
+     * By order id
+     */
+    @Query("UPDATE pokemon SET `order`=:order WHERE name = :pokemonName")
+    fun updatePokemonEntityFromPokemonDetails(pokemonName: String, order: Int)
 }
