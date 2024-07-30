@@ -15,7 +15,7 @@ data class StatsDto(
             name = stat.name,
             value = statValue,
             pokemonEntityName = pokemonName,
-            id = -1 // Here we are specifying id to be -1 as the StatsEntity Id is autoIncrement
+            id = 0// Here we are specifying id to be -1 as the StatsEntity Id is autoIncrement
         )
     }
 }

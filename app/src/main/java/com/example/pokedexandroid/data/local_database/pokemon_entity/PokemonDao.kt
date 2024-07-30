@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
-import com.example.pokedexandroid.data.local_database.StatsEntity.StatsEntity
 import com.example.pokedexandroid.data.local_database.pojo.PokemonWithStats
 
 @Dao
@@ -33,5 +32,5 @@ interface PokemonDao {
         "JOIN stats ON pokemon.name = stats.pokemonEntityName " +
         "WHERE pokemon.name=:pokemonName"*/
     )
-    fun loadPokemonEntityWithItsStats(pokemonName: String): List<PokemonWithStats>
+    fun getPokemonEntityWithItsStats(pokemonName: String): List<PokemonWithStats>
 }
