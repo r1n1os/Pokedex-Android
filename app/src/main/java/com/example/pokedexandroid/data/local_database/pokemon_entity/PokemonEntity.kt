@@ -26,7 +26,7 @@ data class PokemonEntity(
     fun toPokemonDetails(): PokemonDetails {
         return PokemonDetails(
             name = name,
-            order = order,
+            stats = emptyList()
         )
     }
 }

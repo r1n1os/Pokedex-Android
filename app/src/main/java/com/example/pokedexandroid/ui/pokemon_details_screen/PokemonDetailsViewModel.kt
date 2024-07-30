@@ -1,6 +1,5 @@
 package com.example.pokedexandroid.ui.pokemon_details_screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedexandroid.data.repository.PokemonDetailsRepositoryImpl
@@ -26,7 +25,6 @@ class PokemonDetailsViewModel @Inject constructor(
             if (pokemonDetailsUrl != null) {
                 val response =
                     pokemonDetailsRepositoryImpl.executeRequestToGetPokemonDetails(pokemonDetailsUrl = pokemonDetailsUrl)
-                Log.d("RESULT", response.data?.order.toString() ?: "No response")
             }
         }
 }

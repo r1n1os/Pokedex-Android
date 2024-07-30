@@ -1,8 +1,6 @@
 package com.example.pokedexandroid.data.repository
 
-import android.util.Log
 import com.example.pokedexandroid.data.local_database.PokemonDatabase
-import com.example.pokedexandroid.data.local_database.pojo.PokemonWithStats
 import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity
 import com.example.pokedexandroid.data.remote.pokemon_details.PokemonDetailsApi
 import com.example.pokedexandroid.data.remote.dto.PokemonDetailsDto
@@ -20,21 +18,20 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
     override suspend fun executeRequestToGetPokemonDetails(pokemonDetailsUrl: String): Resource<PokemonDetails> {
         val pokemonDetailsResponse: PokemonDetailsDto =
             pokemonDetailsApi.getPokemonDetails(pokemonDetailsUrl)
-        var pokemonDetails = PokemonDetails("", -1)
-        var pokemonWithStats: List<PokemonWithStats>? = null
-
-        savePokemonDetailsIntoLocalDatabase(pokemonDetailsResponse).collect { pokemonEntity ->
-            pokemonDetails = pokemonEntity.toPokemonDetails()
+        val pokemonDetails = PokemonDetails("", emptyList())
+        savePokemonDetailsIntoLocalDatabase(pokemonDetailsResponse).collect{
+            savePokemonStatsIntoLocalDatabase(pokemonDetailsResponse).collect {
+                getPokemonWithStatsByPokemonName(pokemonName = pokemonDetailsResponse.name).collect { pokemonWithStats ->
+                    if(pokemonWithStats != null) {
+                        pokemonDetails.apply {
+                            name = pokemonWithStats.pokemon.name
+                            stats = pokemonWithStats.stats.map { it.toStats() }
+                        }
+                    }
+                }
+            }
         }
-        Log.d("dfsdf","BEFORE")
 
-        savePokemonStatsIntoLocalDatabase(pokemonDetailsResponse).collect {
-
-        }
-        getPokemonWithStatsByPokemonName(pokemonName = pokemonDetails.name).collect {
-            pokemonWithStats = it
-        }
-        Log.d("dfsdf", pokemonWithStats.toString())
         return Resource.Success(
             data = pokemonDetails,
             nextUrl = null
@@ -57,12 +54,12 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
             pokemonDetailsResponse.stats.forEach { statEntity ->
                 pokemonDatabase.statsDao.insertStatsEntity(statsEntity = statEntity.toStatsEntity(pokemonName = pokemonEntity.name))
             }
-            Log.d("dfsdf","WHILE")
             emit(pokemonDatabase.statsDao.getListOfStats())
         }
 
     private suspend fun getPokemonWithStatsByPokemonName(pokemonName: String) =
         flow {
-            emit(pokemonDatabase.pokemonDao.getPokemonEntityWithItsStats(pokemonName = pokemonName))
+            val pokemonWithStats = pokemonDatabase.pokemonDao.getPokemonEntityWithItsStats(pokemonName = pokemonName)
+            emit(pokemonWithStats)
         }
 }

@@ -32,5 +32,5 @@ interface PokemonDao {
         "JOIN stats ON pokemon.name = stats.pokemonEntityName " +
         "WHERE pokemon.name=:pokemonName"*/
     )
-    fun getPokemonEntityWithItsStats(pokemonName: String): List<PokemonWithStats>
+    fun getPokemonEntityWithItsStats(pokemonName: String): PokemonWithStats
 }
