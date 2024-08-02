@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 import com.example.pokedexandroid.data.local_database.StatsEntity.StatsEntity
 import com.example.pokedexandroid.domain.model.PokemonDetails
 import com.example.pokedexandroid.domain.model.PokemonList
+import com.example.pokedexandroid.utils.Colors
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "Pokemon")
@@ -26,6 +27,7 @@ data class PokemonEntity(
     fun toPokemonDetails(): PokemonDetails {
         return PokemonDetails(
             name = name,
+            color = Colors.getTypeColor(""),
             stats = emptyList()
         )
     }

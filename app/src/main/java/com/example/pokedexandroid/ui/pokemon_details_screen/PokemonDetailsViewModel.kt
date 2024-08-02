@@ -25,6 +25,10 @@ class PokemonDetailsViewModel @Inject constructor(
             if (pokemonDetailsUrl != null) {
                 val response =
                     pokemonDetailsRepositoryImpl.executeRequestToGetPokemonDetails(pokemonDetailsUrl = pokemonDetailsUrl)
+                _pokemonDetailsState.value = _pokemonDetailsState.value.copy(
+                    isLoading = false,
+                    pokemonDetails = response.data
+                )
             }
         }
 }

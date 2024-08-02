@@ -31,9 +31,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity
 import com.example.pokedexandroid.domain.model.PokemonList
-import com.example.pokedexandroid.navigations.PokemonDetailsScreen
+import com.example.pokedexandroid.navigations.PokemonDetailsRoute
 
 @ExperimentalGlideComposeApi
 @Composable
@@ -101,8 +100,8 @@ private fun PokemonCell(
         shape = RoundedCornerShape(15),
         onClick = {
             navController.navigate(
-                PokemonDetailsScreen(
-                    pokemonDetailsUrl = pokemon.extraInfoUrl
+                PokemonDetailsRoute(
+                    pokemonDetailsUrl = pokemon.extraInfoUrl,
                 )
             )
         }) {
