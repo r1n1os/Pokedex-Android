@@ -3,6 +3,7 @@ package com.example.pokedexandroid.data.repository
 import android.util.Log
 import com.example.pokedexandroid.data.local_database.PokemonDatabase
 import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity
+import com.example.pokedexandroid.data.local_database.relationships.PokemonAndTypesCrossRef
 import com.example.pokedexandroid.data.remote.pokemon_details.PokemonDetailsApi
 import com.example.pokedexandroid.data.remote.dto.PokemonDetailsDto
 import com.example.pokedexandroid.domain.model.PokemonDetails
@@ -24,10 +25,18 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
         savePokemonDetailsIntoLocalDatabase(pokemonDetailsResponse)
         savePokemonStatsIntoLocalDatabase(pokemonDetailsResponse)
         savePokemonTypesIntoLocalDatabase(pokemonDetailsResponse)
+        getPokemonWithTypes(pokemonDetailsResponse).collect {
+            it.forEach { t ->
+                Log.d("Test", "Pokemon: ${t.pokemonEntity.pokemonName} ")
+                t.types.forEach { type ->
+                    Log.d("Test", "Type: ${type.typeName}")
+                }
+            }
+        }
         getPokemonWithStatsByPokemonName(pokemonName = pokemonDetailsResponse.name).collect { pokemonWithStats ->
             if (pokemonWithStats.pokemon != null) {
                 pokemonDetails.apply {
-                    name = pokemonWithStats.pokemon.name
+                    name = pokemonWithStats.pokemon.pokemonName
                     stats = pokemonWithStats.stats.map { it.toStats() }
                 }
             }
@@ -39,10 +48,16 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
         )
     }
 
+    private suspend fun getPokemonWithTypes(pokemonDetailsResponse: PokemonDetailsDto) =
+        flow {
+            emit(pokemonDatabase.pokemonDao.getPokemonWithTypes(pokemonName = pokemonDetailsResponse.name))
+        }
+
+
     private suspend fun savePokemonDetailsIntoLocalDatabase(pokemonDetailsResponse: PokemonDetailsDto) {
         val pokemonEntity: PokemonEntity = pokemonDetailsResponse.toPokemonEntity()
         pokemonDatabase.pokemonDao.updatePokemonEntityFromPokemonDetails(
-            pokemonName = pokemonEntity.name,
+            pokemonName = pokemonEntity.pokemonName,
             order = pokemonEntity.order,
         )
     }
@@ -53,7 +68,7 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
         pokemonDetailsResponse.stats.forEach { statEntity ->
             pokemonDatabase.statsDao.insertStatsEntity(
                 statsEntity = statEntity.toStatsEntity(
-                    pokemonName = pokemonEntity.name
+                    pokemonName = pokemonEntity.pokemonName
                 )
             )
         }
@@ -64,6 +79,7 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
             pokemonDatabase.typeDao.insertTypeEntity(
                 typeEntity = types.typeDetails.toTypeEntity()
             )
+            pokemonDatabase.pokemonDao.insertPokemonAndTypesCrossRef(PokemonAndTypesCrossRef(pokemonName = pokemonDetailsResponse.name, typeName = types.typeDetails.name))
         }
     }
 

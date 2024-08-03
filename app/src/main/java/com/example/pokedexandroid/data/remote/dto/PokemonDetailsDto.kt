@@ -14,7 +14,7 @@ data class PokemonDetailsDto(
 ) {
     fun toPokemonEntity(): PokemonEntity {
         return PokemonEntity(
-            name = name,
+            pokemonName = name,
             order = order,
             extraInfoUrl = "",
             photoUrl = "",

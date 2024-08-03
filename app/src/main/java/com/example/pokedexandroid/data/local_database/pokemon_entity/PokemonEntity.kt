@@ -11,14 +11,14 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "Pokemon")
 data class PokemonEntity(
     @PrimaryKey
-    val name: String,
+    val pokemonName: String,
     @SerializedName("url") val extraInfoUrl: String?,
     val order: Int,
     var photoUrl: String?,
 ) {
     fun toPokemonList(): PokemonList {
         return PokemonList(
-            name = name,
+            name = pokemonName,
             extraInfoUrl = extraInfoUrl ?: "",
             photoUrl = photoUrl ?: ""
         )
@@ -26,7 +26,7 @@ data class PokemonEntity(
 
     fun toPokemonDetails(): PokemonDetails {
         return PokemonDetails(
-            name = name,
+            name = pokemonName,
             color = Colors.getTypeColor(""),
             stats = emptyList()
         )

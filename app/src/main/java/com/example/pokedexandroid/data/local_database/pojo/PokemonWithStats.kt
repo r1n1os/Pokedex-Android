@@ -8,7 +8,7 @@ import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEnti
 data class PokemonWithStats(
     @Embedded val pokemon: PokemonEntity,
     @Relation(
-        parentColumn = "name", // Column in PokemonEntity
+        parentColumn = "pokemonName", // Column in PokemonEntity
         entityColumn = "pokemonEntityName" // Column in StatsEntity
     )
     val stats: List<StatsEntity>

@@ -8,7 +8,7 @@ data class TypeDetailsDto(
 ) {
     fun toTypeEntity(): TypesEntity {
         return TypesEntity(
-            name = name,
+            typeName = name,
             url = url,
         )
     }

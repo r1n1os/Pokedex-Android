@@ -7,12 +7,12 @@ import com.example.pokedexandroid.domain.model.Type
 @Entity(tableName = "Types")
 data class TypesEntity(
     @PrimaryKey
-    val name: String,
+    val typeName: String,
     val url: String
 ) {
     fun toType(): Type {
         return  Type(
-            name = name,
+            name = typeName,
             url = url
         )
     }
