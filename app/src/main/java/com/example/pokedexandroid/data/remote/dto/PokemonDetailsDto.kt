@@ -8,7 +8,9 @@ data class PokemonDetailsDto(
     val name: String,
     val order: Int,
     @SerializedName("stats")
-    val stats: List<StatsDto>
+    val stats: List<StatsDto>,
+    @SerializedName("types")
+    val types: List<TypesDto>
 ) {
     fun toPokemonEntity(): PokemonEntity {
         return PokemonEntity(

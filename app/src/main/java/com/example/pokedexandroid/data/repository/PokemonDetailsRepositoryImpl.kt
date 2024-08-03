@@ -1,5 +1,6 @@
 package com.example.pokedexandroid.data.repository
 
+import android.util.Log
 import com.example.pokedexandroid.data.local_database.PokemonDatabase
 import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity
 import com.example.pokedexandroid.data.remote.pokemon_details.PokemonDetailsApi
@@ -22,6 +23,7 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
         val pokemonDetails = PokemonDetails("", Colors.getTypeColor(""), emptyList())
         savePokemonDetailsIntoLocalDatabase(pokemonDetailsResponse)
         savePokemonStatsIntoLocalDatabase(pokemonDetailsResponse)
+        savePokemonTypesIntoLocalDatabase(pokemonDetailsResponse)
         getPokemonWithStatsByPokemonName(pokemonName = pokemonDetailsResponse.name).collect { pokemonWithStats ->
             if (pokemonWithStats.pokemon != null) {
                 pokemonDetails.apply {
@@ -53,6 +55,14 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
                 statsEntity = statEntity.toStatsEntity(
                     pokemonName = pokemonEntity.name
                 )
+            )
+        }
+    }
+
+    private suspend fun savePokemonTypesIntoLocalDatabase(pokemonDetailsResponse: PokemonDetailsDto) {
+        pokemonDetailsResponse.types.forEach { types ->
+            pokemonDatabase.typeDao.insertTypeEntity(
+                typeEntity = types.typeDetails.toTypeEntity()
             )
         }
     }
