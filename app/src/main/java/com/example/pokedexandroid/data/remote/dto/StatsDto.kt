@@ -12,7 +12,7 @@ data class StatsDto(
 ) {
     fun toStatsEntity(pokemonName: String): StatsEntity {
         return StatsEntity(
-            name = stat.name,
+            statName = stat.name,
             value = statValue,
             pokemonEntityName = pokemonName,
             id = 0// Here we are specifying id to be -1 as the StatsEntity Id is autoIncrement

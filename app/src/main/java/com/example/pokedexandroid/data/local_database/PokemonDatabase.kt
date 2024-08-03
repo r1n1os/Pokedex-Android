@@ -7,13 +7,14 @@ import com.example.pokedexandroid.data.local_database.StatsEntity.StatsDao
 import com.example.pokedexandroid.data.local_database.StatsEntity.StatsEntity
 import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonDao
 import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity
+import com.example.pokedexandroid.data.local_database.relationships.PokemonAndStatsCrossRef
 import com.example.pokedexandroid.data.local_database.relationships.PokemonAndTypesCrossRef
 import com.example.pokedexandroid.data.local_database.type_converters.StatsTypeConverter
 import com.example.pokedexandroid.data.local_database.types_entity.TypesDao
 import com.example.pokedexandroid.data.local_database.types_entity.TypesEntity
 
 @Database(
-    entities = [PokemonEntity::class, StatsEntity::class, TypesEntity::class, PokemonAndTypesCrossRef::class],
+    entities = [PokemonEntity::class, StatsEntity::class, TypesEntity::class, PokemonAndTypesCrossRef::class, PokemonAndStatsCrossRef::class],
     version = 1,
     exportSchema = false
 )

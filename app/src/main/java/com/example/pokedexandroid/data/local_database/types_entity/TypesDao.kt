@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
-import com.example.pokedexandroid.data.local_database.relationships.PokemonAndTypesCrossRef
 
 @Dao
 interface TypesDao {
