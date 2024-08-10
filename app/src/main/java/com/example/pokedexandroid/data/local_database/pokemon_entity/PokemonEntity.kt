@@ -2,7 +2,6 @@ package com.example.pokedexandroid.data.local_database.pokemon_entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.pokedexandroid.data.local_database.StatsEntity.StatsEntity
 import com.example.pokedexandroid.domain.model.PokemonDetails
 import com.example.pokedexandroid.domain.model.PokemonList
 import com.example.pokedexandroid.utils.Colors

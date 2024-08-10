@@ -80,7 +80,7 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
     private suspend fun savePokemonTypesIntoLocalDatabase(pokemonDetailsResponse: PokemonDetailsDto) {
         pokemonDetailsResponse.types.forEach { types ->
             pokemonDatabase.typeDao.insertTypeEntity(
-                typeEntity = types.typeDetails.toTypeEntity()
+                typeEntity = types.typeDetails.toTypeEntity(pokemonName = pokemonDetailsResponse.name)
             )
             pokemonDatabase.pokemonDao.insertPokemonAndTypesCrossRef(PokemonAndTypesCrossRef(pokemonName = pokemonDetailsResponse.name, typeName = types.typeDetails.name))
         }

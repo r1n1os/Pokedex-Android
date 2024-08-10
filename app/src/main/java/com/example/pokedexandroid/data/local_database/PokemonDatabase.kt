@@ -10,6 +10,7 @@ import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEnti
 import com.example.pokedexandroid.data.local_database.relationships.PokemonAndStatsCrossRef
 import com.example.pokedexandroid.data.local_database.relationships.PokemonAndTypesCrossRef
 import com.example.pokedexandroid.data.local_database.type_converters.StatsTypeConverter
+import com.example.pokedexandroid.data.local_database.type_converters.TypesTypeConverter
 import com.example.pokedexandroid.data.local_database.types_entity.TypesDao
 import com.example.pokedexandroid.data.local_database.types_entity.TypesEntity
 
@@ -18,7 +19,7 @@ import com.example.pokedexandroid.data.local_database.types_entity.TypesEntity
     version = 1,
     exportSchema = false
 )
-@TypeConverters(StatsTypeConverter::class)
+@TypeConverters(StatsTypeConverter::class, TypesTypeConverter::class)
 abstract class PokemonDatabase : RoomDatabase() {
     abstract val pokemonDao: PokemonDao
     abstract val statsDao: StatsDao

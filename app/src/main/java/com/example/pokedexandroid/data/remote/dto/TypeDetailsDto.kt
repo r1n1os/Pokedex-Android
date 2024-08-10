@@ -6,10 +6,11 @@ data class TypeDetailsDto(
     val name: String,
     val url: String
 ) {
-    fun toTypeEntity(): TypesEntity {
+    fun toTypeEntity(pokemonName: String): TypesEntity {
         return TypesEntity(
             typeName = name,
             url = url,
+            pokemonEntityName = pokemonName
         )
     }
 }

@@ -8,7 +8,8 @@ import com.example.pokedexandroid.domain.model.Type
 data class TypesEntity(
     @PrimaryKey
     val typeName: String,
-    val url: String
+    val url: String,
+    val pokemonEntityName: String //This is the primary key of pokemonEntity
 ) {
     fun toType(): Type {
         return  Type(
