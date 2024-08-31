@@ -22,22 +22,26 @@ interface PokemonDao {
     @Query("SELECT * From pokemon WHERE pokemonName=:pokemonName")
     suspend fun getPokemonById(pokemonName: String): PokemonEntity
 
+    @Transaction
+    @Query("DELETE From pokemon WHERE pokemonName=:pokemonName")
+    suspend fun deletePokemonById(pokemonName: String)
+
     /**
      * Updating only price
      * By order id
      */
     @Query("UPDATE pokemon SET `order`=:order WHERE pokemonName = :pokemonName")
-    fun updatePokemonEntityFromPokemonDetails(pokemonName: String, order: Int)
+    suspend fun updatePokemonEntityFromPokemonDetails(pokemonName: String, order: Int)
 
     @Transaction
     @Query(
         "SELECT * FROM pokemon WHERE pokemon.pokemonName=:pokemonName"
     )
-    fun getPokemonEntityWithItsStats(pokemonName: String): List<PokemonWithStats>
+    suspend fun getPokemonEntityWithItsStats(pokemonName: String): PokemonWithStats
 
     @Transaction
     @Query("SELECT * FROM pokemon WHERE pokemon.pokemonName=:pokemonName")
-    fun getPokemonWithTypes(pokemonName: String): List<PokemonWithTypes>
+    suspend fun getPokemonWithTypes(pokemonName: String): PokemonWithTypes
 
     @Upsert
     suspend fun insertPokemonAndStatsCrossRef(test: PokemonAndStatsCrossRef)

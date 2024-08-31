@@ -2,9 +2,11 @@
 
 package com.example.pokedexandroid.ui.pokemon_details_screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,6 +41,8 @@ import androidx.navigation.NavController
 import androidx.navigation.toRoute
 import androidx.compose.foundation.lazy.items
 import com.example.pokedexandroid.navigations.PokemonDetailsRoute
+import com.example.pokedexandroid.utils.Colors
+import com.example.pokedexandroid.utils.HelperMethods
 
 @ExperimentalMaterial3Api
 @Composable
@@ -107,19 +111,30 @@ fun PokemonDetailsScreen(
                     LazyColumn {
                         items(state.pokemonDetails?.stats ?: emptyList()) { stat ->
                             val statValue: Float = stat.value.toFloat()
-                            LinearProgressIndicator(
-                                progress = {
-                                    statValue / 100F
-                                },
-                                trackColor = Color.Green,
-                                color = Color.Blue,
+                            Row {
+                                Text(
+                                    text = "${HelperMethods.fullPokemonStatNameToShorten(statName = stat.name)}: ",
+                                    style = TextStyle(
+                                        fontSize = 18.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color.Red
+                                    )
+                                )
+                                LinearProgressIndicator(
+                                    progress = {
+                                        statValue / 100F
+                                    },
+                                    trackColor = Color.Green,
+                                    color = Color.Blue,
 
-                                modifier = Modifier.fillMaxWidth(),
-                            )
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .align(Alignment.CenterVertically),
+                                )
+                            }
                             Spacer(modifier = Modifier.height(15.dp))
                         }
                     }
-
                 }
             }
         }

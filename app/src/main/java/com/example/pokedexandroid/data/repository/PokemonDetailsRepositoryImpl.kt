@@ -22,26 +22,16 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
     override suspend fun executeRequestToGetPokemonDetails(pokemonDetailsUrl: String): Resource<PokemonDetails> {
         val pokemonDetailsResponse: PokemonDetailsDto =
             pokemonDetailsApi.getPokemonDetails(pokemonDetailsUrl)
-        val pokemonDetails = PokemonDetails("", Colors.getTypeColor(""), emptyList())
+        val pokemonDetails = PokemonDetails("", Colors.getTypeColor(""), emptyList(), emptyList())
         savePokemonDetailsIntoLocalDatabase(pokemonDetailsResponse)
         savePokemonStatsIntoLocalDatabase(pokemonDetailsResponse)
         savePokemonTypesIntoLocalDatabase(pokemonDetailsResponse)
-        getPokemonWithTypes(pokemonDetailsResponse).collect {
-            it.forEach { t ->
-                Log.d("Test", "Pokemon: ${t.pokemonEntity.pokemonName} ")
+        getPokemonWithTypes(pokemonDetailsResponse).collect { pokemonWithTypes ->
+            pokemonDetails.name = pokemonWithTypes.pokemonEntity.pokemonName
+            pokemonDetails.types = pokemonWithTypes.types.map { it.toType() }
 
-                t.types.forEach { type ->
-                    Log.d("Test", "Type: ${type.typeName}")
-                }
-            }
-        }
-        getPokemonWithStatsByPokemonName(pokemonName = pokemonDetailsResponse.name).collect { pokemonWithStats ->
-            pokemonWithStats.forEach { t ->
-                Log.d("Test", "Pokemon: ${t.pokemon.pokemonName} ")
-
-                t.stats.forEach { stat ->
-                    Log.d("Test", "Type: ${stat.statName}")
-                }
+            getPokemonWithStatsByPokemonName(pokemonName = pokemonDetailsResponse.name).collect { pokemonWithStats ->
+                pokemonDetails.stats = pokemonWithStats.stats.map { it.toStats() }
             }
         }
 
@@ -62,6 +52,7 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
 
     private suspend fun savePokemonStatsIntoLocalDatabase(pokemonDetailsResponse: PokemonDetailsDto) {
         val pokemonEntity: PokemonEntity = pokemonDetailsResponse.toPokemonEntity()
+        pokemonDatabase.statsDao.deleteStats()
         pokemonDetailsResponse.stats.forEach { statEntity ->
             pokemonDatabase.statsDao.insertStatsEntity(
                 statsEntity = statEntity.toStatsEntity(
