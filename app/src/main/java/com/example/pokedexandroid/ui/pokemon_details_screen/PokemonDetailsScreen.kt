@@ -2,10 +2,13 @@
 
 package com.example.pokedexandroid.ui.pokemon_details_screen
 
+import android.annotation.SuppressLint
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,11 +45,17 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.toRoute
 import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.pokedexandroid.navigations.PokemonDetailsRoute
-import com.example.pokedexandroid.utils.Colors
+import com.example.pokedexandroid.ui.pokemon_details_screen.composaples.PokemonStat
 import com.example.pokedexandroid.utils.HelperMethods
+
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @ExperimentalMaterial3Api
@@ -61,6 +70,7 @@ fun PokemonDetailsScreen(
     LaunchedEffect(key1 = true) {
         pokemonDetailsViewModel.executeRequestToGetPokemonDetails(args.pokemonDetailsUrl)
     }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -115,32 +125,9 @@ fun PokemonDetailsScreen(
                     )
                     LazyColumn {
                         items(state.pokemonDetails?.stats ?: emptyList()) { stat ->
-                            val statValue: Float = stat.value.toFloat()
-                            Row(
-                                modifier = Modifier
-                                    .padding(start = 21.dp, end = 21.dp)
-                            ) {
-                                Text(
-                                    text = "${HelperMethods.fullPokemonStatNameToShorten(statName = stat.name)}: ",
-                                    style = TextStyle(
-                                        fontSize = 18.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        color = Color.Red
-                                    )
-                                )
-                                LinearProgressIndicator(
-                                    progress = {
-                                        statValue / 100F
-                                    },
-                                    trackColor = Color.Green,
-                                    color = Color.Blue,
-
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .align(Alignment.CenterVertically),
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(15.dp))
+                          PokemonStat(
+                              stat = stat,
+                              color = state.pokemonDetails?.color ?: Color.White)
                         }
                     }
                 }
@@ -186,5 +173,4 @@ fun PokemonDetailsScreen(
             }
         }
     }
-
 }

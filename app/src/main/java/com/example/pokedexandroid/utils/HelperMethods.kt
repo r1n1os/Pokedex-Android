@@ -6,9 +6,9 @@ object HelperMethods {
             "hp" -> "Hp"
             "attack" -> "Att"
             "defense" -> "Def"
-            "special-attack" -> "Special Att"
-            "special-defense" -> "Special Def"
-            "speed" -> "Speed"
+            "special-attack" -> "SAtt"
+            "special-defense" -> "SDef"
+            "speed" -> "Spd"
             else -> ""
         }
     }

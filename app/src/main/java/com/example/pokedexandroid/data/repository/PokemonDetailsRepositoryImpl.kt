@@ -1,5 +1,6 @@
 package com.example.pokedexandroid.data.repository
 
+import androidx.compose.ui.graphics.Color
 import com.example.pokedexandroid.data.local_database.PokemonDatabase
 import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity
 import com.example.pokedexandroid.data.local_database.relationships.PokemonAndStatsCrossRef
@@ -29,6 +30,9 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
         getPokemonWithTypes(pokemonDetailsResponse).collect { pokemonWithTypes ->
             pokemonDetails.name = pokemonWithTypes.pokemonEntity.pokemonName
             pokemonDetails.types = pokemonWithTypes.types.map { it.toType() }
+            if(pokemonDetails.color == Color.White) {
+                pokemonDetails.color = Colors.getTypeColor(pokemonDetails.types.first().name)
+            }
 
             getPokemonWithStatsByPokemonName(pokemonName = pokemonDetailsResponse.name).collect { pokemonWithStats ->
                 pokemonDetails.stats = pokemonWithStats.stats.map { it.toStats() }
