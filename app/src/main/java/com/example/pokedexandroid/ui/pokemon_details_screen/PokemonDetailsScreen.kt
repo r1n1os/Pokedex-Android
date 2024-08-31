@@ -2,29 +2,25 @@
 
 package com.example.pokedexandroid.ui.pokemon_details_screen
 
-import android.annotation.SuppressLint
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -44,17 +40,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.toRoute
-import androidx.compose.foundation.lazy.items
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.pokedexandroid.navigations.PokemonDetailsRoute
 import com.example.pokedexandroid.ui.pokemon_details_screen.composaples.PokemonStat
-import com.example.pokedexandroid.utils.HelperMethods
 
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -72,27 +61,7 @@ fun PokemonDetailsScreen(
     }
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                navigationIcon = {
-                    IconButton(onClick = {
-                        navController.popBackStack()
-                    }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-                title = {
-                    Text(state.pokemonDetails?.name ?: "No Pokemon found")
-                }
-            )
-        },
+        contentWindowInsets = WindowInsets(bottom = 0, top = 100)
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -100,6 +69,27 @@ fun PokemonDetailsScreen(
                 .background(color = Color.Red)
                 .padding(innerPadding)
         ) {
+            Row(
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                IconButton(onClick = {
+                    navController.popBackStack()
+                }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Localized description"
+                    )
+                }
+                Text(
+                    modifier = Modifier.padding(top = 10.dp),
+                    text = state.pokemonDetails?.name ?: "No Pokemon found",
+                    style = TextStyle(
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
+            }
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -125,9 +115,10 @@ fun PokemonDetailsScreen(
                     )
                     LazyColumn {
                         items(state.pokemonDetails?.stats ?: emptyList()) { stat ->
-                          PokemonStat(
-                              stat = stat,
-                              color = state.pokemonDetails?.color ?: Color.White)
+                            PokemonStat(
+                                stat = stat,
+                                color = state.pokemonDetails?.color ?: Color.White
+                            )
                         }
                     }
                 }
