@@ -2,17 +2,19 @@
 
 package com.example.pokedexandroid.ui.pokemon_details_screen
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -40,10 +42,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.toRoute
 import androidx.compose.foundation.lazy.items
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.example.pokedexandroid.navigations.PokemonDetailsRoute
 import com.example.pokedexandroid.utils.Colors
 import com.example.pokedexandroid.utils.HelperMethods
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @ExperimentalMaterial3Api
 @Composable
 fun PokemonDetailsScreen(
@@ -96,10 +101,10 @@ fun PokemonDetailsScreen(
                         ),
                     )
                     .background(Color.White),
-                contentAlignment = Alignment.TopCenter,
             ) {
                 Column(
-                    modifier = Modifier.padding(top = 50.dp)
+                    modifier = Modifier.padding(top = 100.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = "Base Stats",
@@ -111,7 +116,10 @@ fun PokemonDetailsScreen(
                     LazyColumn {
                         items(state.pokemonDetails?.stats ?: emptyList()) { stat ->
                             val statValue: Float = stat.value.toFloat()
-                            Row {
+                            Row(
+                                modifier = Modifier
+                                    .padding(start = 21.dp, end = 21.dp)
+                            ) {
                                 Text(
                                     text = "${HelperMethods.fullPokemonStatNameToShorten(statName = stat.name)}: ",
                                     style = TextStyle(
@@ -133,6 +141,45 @@ fun PokemonDetailsScreen(
                                 )
                             }
                             Spacer(modifier = Modifier.height(15.dp))
+                        }
+                    }
+                }
+            }
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                GlideImage(
+                    modifier = Modifier
+                        .padding(
+                            top = 130.dp
+                        )
+                        .width(100.dp)
+                        .height(100.dp),
+                    model = state.pokemonDetails?.photoUrl ?: "",
+                    alignment = Alignment.TopCenter,
+                    contentDescription = "Network Image"
+                )
+                Spacer(
+                    modifier = Modifier
+                        .height(5.dp)
+                )
+                LazyRow {
+                    items(state.pokemonDetails?.types ?: emptyList()) { type ->
+                        Box(
+                            modifier = Modifier
+                                .clip(
+                                    shape = RoundedCornerShape(45),
+                                )
+                                .background(color = Color.Red)
+                                .padding(top = 5.dp, bottom = 5.dp, start = 10.dp, end = 10.dp),
+                        ) {
+                            Text(
+                                text = type.name, style = TextStyle(
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
                         }
                     }
                 }

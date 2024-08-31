@@ -1,6 +1,5 @@
 package com.example.pokedexandroid.data.repository
 
-import android.util.Log
 import com.example.pokedexandroid.data.local_database.PokemonDatabase
 import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity
 import com.example.pokedexandroid.data.local_database.relationships.PokemonAndStatsCrossRef
@@ -10,6 +9,7 @@ import com.example.pokedexandroid.data.remote.dto.PokemonDetailsDto
 import com.example.pokedexandroid.domain.model.PokemonDetails
 import com.example.pokedexandroid.domain.repository.PokemonDetailsRepository
 import com.example.pokedexandroid.utils.Colors
+import com.example.pokedexandroid.utils.Constants
 import com.example.pokedexandroid.utils.Resource
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -22,7 +22,7 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
     override suspend fun executeRequestToGetPokemonDetails(pokemonDetailsUrl: String): Resource<PokemonDetails> {
         val pokemonDetailsResponse: PokemonDetailsDto =
             pokemonDetailsApi.getPokemonDetails(pokemonDetailsUrl)
-        val pokemonDetails = PokemonDetails("", Colors.getTypeColor(""), emptyList(), emptyList())
+        val pokemonDetails = PokemonDetails("", "${Constants.POKEMON_GIF_BASE_URL}${pokemonDetailsResponse.id}.gif", Colors.getTypeColor(""), emptyList(), emptyList())
         savePokemonDetailsIntoLocalDatabase(pokemonDetailsResponse)
         savePokemonStatsIntoLocalDatabase(pokemonDetailsResponse)
         savePokemonTypesIntoLocalDatabase(pokemonDetailsResponse)
