@@ -32,6 +32,6 @@ class PokemonListViewModel @Inject constructor(
     fun executeRequestToGetNextListOfPokemon() = viewModelScope.launch(Dispatchers.IO) {
         _pokemonListState.value = _pokemonListState.value.copy(isLoading = true)
         val response = pokemonListRepository.executeRequestToGetPokemonList(_pokemonListState.value.nextUrl)
-       // _pokemonListState.value = _pokemonListState.value.copy(pokemonList = response.data?.toList() ?: emptyList(), nextUrl = response.nextUrl)
+        _pokemonListState.value = _pokemonListState.value.copy(pokemonList = response.data?.toList() ?: emptyList(), nextUrl = response.nextUrl)
     }
 }

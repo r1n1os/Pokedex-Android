@@ -50,7 +50,7 @@ fun PokemonStat(stat: Stats, color: Color) {
             style = TextStyle(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Red
+                color = color
             )
         )
         LinearProgressIndicator(

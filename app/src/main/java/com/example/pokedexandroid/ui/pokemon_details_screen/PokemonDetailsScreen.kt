@@ -24,8 +24,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -66,7 +64,7 @@ fun PokemonDetailsScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color.Red)
+                .background(color =  state.pokemonDetails?.color ?: Color.White)
                 .padding(innerPadding)
         ) {
             Row(
@@ -77,6 +75,7 @@ fun PokemonDetailsScreen(
                 }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        tint = Color.White,
                         contentDescription = "Localized description"
                     )
                 }
@@ -85,7 +84,8 @@ fun PokemonDetailsScreen(
                     text = state.pokemonDetails?.name ?: "No Pokemon found",
                     style = TextStyle(
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
                     )
                 )
             }
@@ -149,13 +149,14 @@ fun PokemonDetailsScreen(
                                 .clip(
                                     shape = RoundedCornerShape(45),
                                 )
-                                .background(color = Color.Red)
+                                .background(color = state.pokemonDetails?.color ?: Color.White)
                                 .padding(top = 5.dp, bottom = 5.dp, start = 10.dp, end = 10.dp),
                         ) {
                             Text(
                                 text = type.name, style = TextStyle(
                                     fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Bold,
+                                    color = if(state.pokemonDetails?.color != null) Color.White else Color.Blue
                                 )
                             )
                         }
