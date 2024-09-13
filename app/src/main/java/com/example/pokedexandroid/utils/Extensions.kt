@@ -1,4 +1,3 @@
 package com.example.pokedexandroid.utils
 
-object Extensions {
-}
+fun String?.capitalizeTheFirstLetter(): String = "${this?.first()?.uppercase()}${this?.replaceFirst(this.first().toString(), "")}"

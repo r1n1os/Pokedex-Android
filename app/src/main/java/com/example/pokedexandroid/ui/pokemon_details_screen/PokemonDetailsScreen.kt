@@ -42,6 +42,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.pokedexandroid.navigations.PokemonDetailsRoute
 import com.example.pokedexandroid.ui.pokemon_details_screen.composaples.PokemonStat
+import com.example.pokedexandroid.utils.capitalizeTheFirstLetter
 
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -81,7 +82,7 @@ fun PokemonDetailsScreen(
                 }
                 Text(
                     modifier = Modifier.padding(top = 10.dp),
-                    text = state.pokemonDetails?.name ?: "No Pokemon found",
+                    text = state.pokemonDetails?.name.capitalizeTheFirstLetter().toString() ?: "No Pokemon found",
                     style = TextStyle(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
@@ -140,7 +141,7 @@ fun PokemonDetailsScreen(
                 )
                 Spacer(
                     modifier = Modifier
-                        .height(5.dp)
+                        .height(15.dp)
                 )
                 LazyRow {
                     items(state.pokemonDetails?.types ?: emptyList()) { type ->
