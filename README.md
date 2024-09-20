@@ -2,11 +2,6 @@
 
 Pokedex-Android was developed to showcase various modern Android development toolkits recommended by Google.
 
-## Example: 
-<img src="https://github.com/user-attachments/assets/fe2cc945-359a-467e-8dbf-d01154f1898a" width="200" alt="Pokemon List Screen">
-<img src="https://github.com/user-attachments/assets/5b8bfa52-933f-4813-b32a-214882954995" width="200" alt="Pokemon Details Screen">
-<img src="https://github.com/user-attachments/assets/f7b81fd8-14ef-4b67-8b53-809c3189e0a7" width="200" alt="Pokemon Not Found Screen">
-
 ## Project Tech Stack:
   * Architecture: [MVVM](https://developer.android.com/topic/architecture) (View - ViewModle - Model), helps to keep project clean and maintainable by offering seperation of concerns.
   * Programming Language: [Kotlin](https://kotlinlang.org/docs/android-overview.html). 
@@ -23,6 +18,13 @@ Pokedex-Android was developed to showcase various modern Android development too
   * compileSdk: 34
   * targetSdk: 34
   * minSdk: 28
+  * gradle: 8.10
+  * kotlin: 2.0.20
+
+## Example: 
+<img src="https://github.com/user-attachments/assets/fe2cc945-359a-467e-8dbf-d01154f1898a" width="200" alt="Pokemon List Screen">
+<img src="https://github.com/user-attachments/assets/5b8bfa52-933f-4813-b32a-214882954995" width="200" alt="Pokemon Details Screen">
+<img src="https://github.com/user-attachments/assets/f7b81fd8-14ef-4b67-8b53-809c3189e0a7" width="200" alt="Pokemon Not Found Screen">
 
 ## References:
   ### UI insperation:
