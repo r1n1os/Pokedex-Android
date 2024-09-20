@@ -2,7 +2,9 @@
 
 package com.example.pokedexandroid.ui.pokemon_details_screen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -39,6 +42,7 @@ import androidx.navigation.NavController
 import androidx.navigation.toRoute
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.example.pokedexandroid.R
 import com.example.pokedexandroid.navigations.PokemonDetailsRoute
 import com.example.pokedexandroid.ui.CustomCompose.CustomLoader
 import com.example.pokedexandroid.ui.pokemon_details_screen.composaples.PokemonStat
@@ -65,12 +69,10 @@ fun PokemonDetailsScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = state.pokemonDetails?.color ?: Color.White)
+                .background(color = state.pokemonDetails?.color ?: Color(0xFF78909C))
                 .padding(innerPadding)
         ) {
-            Row(
-                modifier = Modifier.fillMaxSize(),
-            ) {
+            if (state.pokemonDetails == null) {
                 IconButton(onClick = {
                     navController.popBackStack()
                 }) {
@@ -80,95 +82,128 @@ fun PokemonDetailsScreen(
                         contentDescription = "Localized description"
                     )
                 }
-                Text(
-                    modifier = Modifier.padding(top = 10.dp),
-                    text = state.pokemonDetails?.name.capitalizeTheFirstLetter().toString()
-                        ?: "No Pokemon found",
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 200.dp)
-                    .clip(
-                        shape = RoundedCornerShape(
-                            topStart = 15.dp,
-                            topEnd = 15.dp
-                        ),
-                    )
-                    .background(Color.White),
-            ) {
                 Column(
-                    modifier = Modifier.padding(top = 100.dp),
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_empty_pokeball),
+                        contentDescription = "Empty Pokeball"
+                    )
+                    Text(
+                        modifier = Modifier.padding(top = 10.dp),
+                        text = "Oups! Pokemon Escaped!",
+                        style = TextStyle(
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black
+                        )
+                    )
+                }
+            } else {
+                Row(
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                    }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            tint = Color.White,
+                            contentDescription = "Localized description"
+                        )
+                    }
+                    Text(
+                        modifier = Modifier.padding(top = 10.dp),
+                        text = state.pokemonDetails?.name.capitalizeTheFirstLetter().toString()
+                            ?: "No Pokemon found",
+                        style = TextStyle(
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 200.dp)
+                        .clip(
+                            shape = RoundedCornerShape(
+                                topStart = 15.dp,
+                                topEnd = 15.dp
+                            ),
+                        )
+                        .background(Color.White),
+                ) {
+                    Column(
+                        modifier = Modifier.padding(top = 100.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        if (state.pokemonDetails?.stats?.isNotEmpty() == true)
+                            Text(
+                                text = "Base Stats",
+                                style = TextStyle(
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
+                        LazyColumn {
+                            items(state.pokemonDetails?.stats ?: emptyList()) { stat ->
+                                PokemonStat(
+                                    stat = stat,
+                                    color = state.pokemonDetails?.color ?: Color.White
+                                )
+                            }
+                        }
+                    }
+                }
+                Column(
+                    modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    if (state.pokemonDetails?.stats?.isNotEmpty() == true)
-                        Text(
-                            text = "Base Stats",
-                            style = TextStyle(
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Bold
+                    GlideImage(
+                        modifier = Modifier
+                            .padding(
+                                top = 130.dp
                             )
-                        )
-                    LazyColumn {
-                        items(state.pokemonDetails?.stats ?: emptyList()) { stat ->
-                            PokemonStat(
-                                stat = stat,
-                                color = state.pokemonDetails?.color ?: Color.White
-                            )
+                            .width(100.dp)
+                            .height(100.dp),
+                        model = state.pokemonDetails?.photoUrl ?: "",
+                        alignment = Alignment.TopCenter,
+                        contentDescription = "Network Image"
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .height(15.dp)
+                    )
+                    LazyRow {
+                        items(state.pokemonDetails?.types ?: emptyList()) { type ->
+                            Box(
+                                modifier = Modifier
+                                    .clip(
+                                        shape = RoundedCornerShape(45),
+                                    )
+                                    .background(color = state.pokemonDetails?.color ?: Color.White)
+                                    .padding(top = 5.dp, bottom = 5.dp, start = 10.dp, end = 10.dp),
+                            ) {
+                                Text(
+                                    text = type.name, style = TextStyle(
+                                        fontSize = 16.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = if (state.pokemonDetails?.color != null) Color.White else Color.Blue
+                                    )
+                                )
+                            }
                         }
                     }
                 }
             }
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                GlideImage(
-                    modifier = Modifier
-                        .padding(
-                            top = 130.dp
-                        )
-                        .width(100.dp)
-                        .height(100.dp),
-                    model = state.pokemonDetails?.photoUrl ?: "",
-                    alignment = Alignment.TopCenter,
-                    contentDescription = "Network Image"
-                )
-                Spacer(
-                    modifier = Modifier
-                        .height(15.dp)
-                )
-                LazyRow {
-                    items(state.pokemonDetails?.types ?: emptyList()) { type ->
-                        Box(
-                            modifier = Modifier
-                                .clip(
-                                    shape = RoundedCornerShape(45),
-                                )
-                                .background(color = state.pokemonDetails?.color ?: Color.White)
-                                .padding(top = 5.dp, bottom = 5.dp, start = 10.dp, end = 10.dp),
-                        ) {
-                            Text(
-                                text = type.name, style = TextStyle(
-                                    fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = if (state.pokemonDetails?.color != null) Color.White else Color.Blue
-                                )
-                            )
-                        }
-                    }
-                }
+            if (state.isLoading) {
+                CustomLoader()
             }
-        }
-        if(state.isLoading) {
-            CustomLoader()
         }
     }
 }
