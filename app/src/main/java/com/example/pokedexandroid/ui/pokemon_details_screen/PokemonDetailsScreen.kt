@@ -21,7 +21,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,6 +40,7 @@ import androidx.navigation.toRoute
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.pokedexandroid.navigations.PokemonDetailsRoute
+import com.example.pokedexandroid.ui.CustomCompose.CustomLoader
 import com.example.pokedexandroid.ui.pokemon_details_screen.composaples.PokemonStat
 import com.example.pokedexandroid.utils.capitalizeTheFirstLetter
 
@@ -65,7 +65,7 @@ fun PokemonDetailsScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color =  state.pokemonDetails?.color ?: Color.White)
+                .background(color = state.pokemonDetails?.color ?: Color.White)
                 .padding(innerPadding)
         ) {
             Row(
@@ -82,7 +82,8 @@ fun PokemonDetailsScreen(
                 }
                 Text(
                     modifier = Modifier.padding(top = 10.dp),
-                    text = state.pokemonDetails?.name.capitalizeTheFirstLetter().toString() ?: "No Pokemon found",
+                    text = state.pokemonDetails?.name.capitalizeTheFirstLetter().toString()
+                        ?: "No Pokemon found",
                     style = TextStyle(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
@@ -107,13 +108,14 @@ fun PokemonDetailsScreen(
                     modifier = Modifier.padding(top = 100.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = "Base Stats",
-                        style = TextStyle(
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold
+                    if (state.pokemonDetails?.stats?.isNotEmpty() == true)
+                        Text(
+                            text = "Base Stats",
+                            style = TextStyle(
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold
+                            )
                         )
-                    )
                     LazyColumn {
                         items(state.pokemonDetails?.stats ?: emptyList()) { stat ->
                             PokemonStat(
@@ -157,13 +159,16 @@ fun PokemonDetailsScreen(
                                 text = type.name, style = TextStyle(
                                     fontSize = 16.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = if(state.pokemonDetails?.color != null) Color.White else Color.Blue
+                                    color = if (state.pokemonDetails?.color != null) Color.White else Color.Blue
                                 )
                             )
                         }
                     }
                 }
             }
+        }
+        if(state.isLoading) {
+            CustomLoader()
         }
     }
 }

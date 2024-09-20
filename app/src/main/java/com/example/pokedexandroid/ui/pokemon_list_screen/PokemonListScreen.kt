@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -52,6 +51,7 @@ fun PokemonListScreen(
         LazyVerticalGrid(
             state = scrollState,
             modifier = Modifier
+                .fillMaxSize()
                 .background(Color(0xFF78909C))
                 .padding(top = 35.dp, start = 21.dp, end = 21.dp, bottom = 21.dp),
             columns = GridCells.Adaptive(150.dp),
