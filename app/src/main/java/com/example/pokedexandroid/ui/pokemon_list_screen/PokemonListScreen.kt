@@ -47,41 +47,46 @@ fun PokemonListScreen(
         mutableStateOf(false)
     }
 
-    Surface {
-        LazyVerticalGrid(
-            state = scrollState,
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Color(0xFF78909C))
-                .padding(top = 35.dp, start = 21.dp, end = 21.dp, bottom = 21.dp),
-            columns = GridCells.Adaptive(150.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(state.pokemonList) { pokemon ->
-                reachEndOfList = false
-                PokemonCell(
-                    navController = navController,
-                    pokemon = pokemon
-                )
-            }
+    Surface(
+        modifier = Modifier.background(Color(0xFF78909C))
+    ) {
+        if (state.pokemonList.isNotEmpty()) {
 
-            item {
-                LaunchedEffect(true) {
-                    reachEndOfList = true
-                    pokemonListViewModel.executeRequestToGetNextListOfPokemon()
+            LazyVerticalGrid(
+                state = scrollState,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color(0xFF78909C))
+                    .padding(top = 35.dp, start = 21.dp, end = 21.dp, bottom = 21.dp),
+                columns = GridCells.Adaptive(150.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(state.pokemonList) { pokemon ->
+                    reachEndOfList = false
+                    PokemonCell(
+                        navController = navController,
+                        pokemon = pokemon
+                    )
                 }
-                if (reachEndOfList)
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        CustomLoader()
+
+                item {
+                    LaunchedEffect(true) {
+                        reachEndOfList = true
+                        pokemonListViewModel.executeRequestToGetNextListOfPokemon()
                     }
+                    if (reachEndOfList)
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            CustomLoader()
+                        }
+                }
             }
         }
-        if(state.isLoading) {
+        if (state.isLoading) {
             CustomLoader()
         }
     }
