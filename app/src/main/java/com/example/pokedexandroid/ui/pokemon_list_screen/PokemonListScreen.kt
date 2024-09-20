@@ -33,6 +33,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.pokedexandroid.domain.model.PokemonList
 import com.example.pokedexandroid.navigations.PokemonDetailsRoute
+import com.example.pokedexandroid.ui.CustomCompose.CustomLoader
 
 @ExperimentalGlideComposeApi
 @Composable
@@ -76,9 +77,12 @@ fun PokemonListScreen(
                             .fillMaxSize(),
                         contentAlignment = Alignment.Center,
                     ) {
-                        CircularProgressIndicator()
+                        CustomLoader()
                     }
             }
+        }
+        if(state.isLoading) {
+            CustomLoader()
         }
     }
 }
