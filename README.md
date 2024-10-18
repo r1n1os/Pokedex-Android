@@ -16,13 +16,14 @@ Pokedex-Android was developed to showcase various modern Android development too
   * Load Images from URl: [Glide](https://bumptech.github.io/glide/int/compose.html)
   * [KSP](https://kotlinlang.org/docs/ksp-overview.html): Kotlin Symbol Processing API for code generation and analysis.
   * Navigate between screens: [Type-save Navigation - Compose Navigation](https://developer.android.com/guide/navigation/design/type-safety)
+  * [Shared Element Transitions in Compose](https://developer.android.com/develop/ui/compose/animation/shared-elements)
 
 ## Basic Configurations:
   * compileSdk: 34
   * targetSdk: 34
   * minSdk: 28
-  * gradle: 8.6.1
-  * kotlin: 2.0.20
+  * gradle: 8.7.1
+  * kotlin: 2.0.21
 
 ## Example: 
 <img src="https://github.com/user-attachments/assets/fe2cc945-359a-467e-8dbf-d01154f1898a" width="200" alt="Pokemon List Screen">
