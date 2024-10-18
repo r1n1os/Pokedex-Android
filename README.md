@@ -2,6 +2,9 @@
 
 Pokedex-Android was developed to showcase various modern Android development toolkits recommended by Google.
 
+> [!NOTE]
+> If you want to see the Flutter version of Pokedex, check out the [Pokedex-Flutter](https://github.com/r1n1os/pokedex-flutter) repository.
+> 
 ## Project Tech Stack:
   * Architecture: [MVVM](https://developer.android.com/topic/architecture) (View - ViewModle - Model), helps to keep project clean and maintainable by offering seperation of concerns.
   * Programming Language: [Kotlin](https://kotlinlang.org/docs/android-overview.html). 
@@ -18,7 +21,7 @@ Pokedex-Android was developed to showcase various modern Android development too
   * compileSdk: 34
   * targetSdk: 34
   * minSdk: 28
-  * gradle: 8.10
+  * gradle: 8.6.1
   * kotlin: 2.0.20
 
 ## Example: 
