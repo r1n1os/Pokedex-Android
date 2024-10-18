@@ -6,6 +6,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
+import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,6 +21,7 @@ import com.example.pokedexandroid.ui.pokemon_list_screen.PokemonListScreen
 import com.example.pokedexandroid.ui.theme.PokedexAndroidTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @ExperimentalGlideComposeApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -26,18 +30,24 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PokedexAndroidTheme {
-                val navController = rememberNavController()
-                NavHost(
-                    navController = navController,
-                    startDestination = PokemonListRoute
-                ) {
-                    composable<PokemonListRoute> {
-                        PokemonListScreen(
-                            navController = navController
-                        )
-                    }
-                    composable<PokemonDetailsRoute> {
-                        PokemonDetailsScreen(navController = navController)
+                SharedTransitionLayout {
+                    val navController = rememberNavController()
+
+                    NavHost(
+                        navController = navController,
+                        startDestination = PokemonListRoute
+                    ) {
+                        composable<PokemonListRoute> {
+                            PokemonListScreen(
+                                navController = navController,
+                                animatedVisibilityScope = this
+                            )
+                        }
+                        composable<PokemonDetailsRoute> {
+                            PokemonDetailsScreen(
+                                navController = navController,
+                                animatedVisibilityScope = this)
+                        }
                     }
                 }
             }

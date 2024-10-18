@@ -2,6 +2,10 @@
 
 package com.example.pokedexandroid.ui.pokemon_details_screen
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -49,11 +53,12 @@ import com.example.pokedexandroid.ui.pokemon_details_screen.composaples.PokemonS
 import com.example.pokedexandroid.utils.capitalizeTheFirstLetter
 
 
-@OptIn(ExperimentalGlideComposeApi::class)
+@OptIn(ExperimentalGlideComposeApi::class, ExperimentalSharedTransitionApi::class)
 @ExperimentalMaterial3Api
 @Composable
-fun PokemonDetailsScreen(
+fun SharedTransitionScope.PokemonDetailsScreen(
     navController: NavController,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     pokemonDetailsViewModel: PokemonDetailsViewModel = hiltViewModel()
 ) {
     val args =
@@ -142,7 +147,7 @@ fun PokemonDetailsScreen(
                         modifier = Modifier.padding(top = 100.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        if (state.pokemonDetails?.stats?.isNotEmpty() == true)
+                        if (state.pokemonDetails.stats.isNotEmpty() == true)
                             Text(
                                 text = "Base Stats",
                                 style = TextStyle(
@@ -151,10 +156,10 @@ fun PokemonDetailsScreen(
                                 )
                             )
                         LazyColumn {
-                            items(state.pokemonDetails?.stats ?: emptyList()) { stat ->
+                            items(state.pokemonDetails.stats ?: emptyList()) { stat ->
                                 PokemonStat(
                                     stat = stat,
-                                    color = state.pokemonDetails?.color ?: Color.White
+                                    color = state.pokemonDetails.color ?: Color.White
                                 )
                             }
                         }
@@ -170,7 +175,14 @@ fun PokemonDetailsScreen(
                                 top = 130.dp
                             )
                             .width(100.dp)
-                            .height(100.dp),
+                            .height(100.dp)
+                            .sharedElement(
+                                state = rememberSharedContentState(key = state.pokemonDetails.name),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = {initial, target ->
+                            tween(durationMillis = 1000)
+                        }
+                    ),
                         model = state.pokemonDetails?.photoUrl ?: "",
                         alignment = Alignment.TopCenter,
                         contentDescription = "Network Image"
@@ -186,14 +198,14 @@ fun PokemonDetailsScreen(
                                     .clip(
                                         shape = RoundedCornerShape(45),
                                     )
-                                    .background(color = state.pokemonDetails?.color ?: Color.White)
+                                    .background(color = state.pokemonDetails.color ?: Color.White)
                                     .padding(top = 5.dp, bottom = 5.dp, start = 10.dp, end = 10.dp),
                             ) {
                                 Text(
                                     text = type.name, style = TextStyle(
                                         fontSize = 16.sp,
                                         fontWeight = FontWeight.Bold,
-                                        color = if (state.pokemonDetails?.color != null) Color.White else Color.Blue
+                                        color = if (state.pokemonDetails.color != null) Color.White else Color.Blue
                                     )
                                 )
                             }

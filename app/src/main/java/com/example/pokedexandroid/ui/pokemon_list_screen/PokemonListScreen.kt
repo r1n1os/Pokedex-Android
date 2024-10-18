@@ -1,5 +1,11 @@
+@file:OptIn(ExperimentalSharedTransitionApi::class)
+
 package com.example.pokedexandroid.ui.pokemon_list_screen
 
+import androidx.compose.animation.AnimatedVisibilityScope
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,10 +40,12 @@ import com.example.pokedexandroid.domain.model.PokemonList
 import com.example.pokedexandroid.navigations.PokemonDetailsRoute
 import com.example.pokedexandroid.ui.CustomCompose.CustomLoader
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @ExperimentalGlideComposeApi
 @Composable
-fun PokemonListScreen(
+fun SharedTransitionScope.PokemonListScreen(
     navController: NavController,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     pokemonListViewModel: PokemonListViewModel = hiltViewModel()
 ) {
     val state = pokemonListViewModel.pokemonListState.collectAsState().value
@@ -66,6 +74,7 @@ fun PokemonListScreen(
                     reachEndOfList = false
                     PokemonCell(
                         navController = navController,
+                        animatedVisibilityScope = animatedVisibilityScope,
                         pokemon = pokemon
                     )
                 }
@@ -94,8 +103,9 @@ fun PokemonListScreen(
 
 @ExperimentalGlideComposeApi
 @Composable
-private fun PokemonCell(
+private fun SharedTransitionScope.PokemonCell(
     navController: NavController,
+    animatedVisibilityScope: AnimatedVisibilityScope,
     pokemon: PokemonList
 ) {
     Card(
@@ -118,6 +128,14 @@ private fun PokemonCell(
             contentAlignment = Alignment.Center
         ) {
             GlideImage(
+                modifier = Modifier
+                    .sharedElement(
+                    state = rememberSharedContentState(key = pokemon.name),
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = {initial, target ->
+                            tween(durationMillis = 1000)
+                        }
+                ),
                 model = pokemon.photoUrl ?: "",
                 alignment = Alignment.Center,
                 contentDescription = "Network Image"
