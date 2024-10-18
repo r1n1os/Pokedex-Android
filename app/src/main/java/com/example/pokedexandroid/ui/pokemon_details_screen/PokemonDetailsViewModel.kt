@@ -24,7 +24,7 @@ class PokemonDetailsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _pokemonDetailsState.value = _pokemonDetailsState.value.copy(isLoading = true)
             ///The delay here has been added so the loading being more realistic
-            delay(1200)
+            //delay(1200)
             if (pokemonDetailsUrl != null) {
                 val response =
                     pokemonDetailsRepositoryImpl.executeRequestToGetPokemonDetails(pokemonDetailsUrl = pokemonDetailsUrl)
@@ -34,4 +34,5 @@ class PokemonDetailsViewModel @Inject constructor(
                 )
             }
         }
+
 }
