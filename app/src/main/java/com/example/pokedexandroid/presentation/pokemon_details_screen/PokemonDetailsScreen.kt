@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.example.pokedexandroid.ui.pokemon_details_screen
+package com.example.pokedexandroid.presentation.pokemon_details_screen
 
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -41,15 +41,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.toRoute
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.pokedexandroid.R
 import com.example.pokedexandroid.navigations.PokemonDetailsRoute
-import com.example.pokedexandroid.ui.CustomCompose.CustomLoader
-import com.example.pokedexandroid.ui.pokemon_details_screen.composaples.PokemonStat
+import com.example.pokedexandroid.presentation.CustomCompose.CustomLoader
+import com.example.pokedexandroid.presentation.pokemon_details_screen.composaples.PokemonStat
 import com.example.pokedexandroid.utils.capitalizeTheFirstLetter
 
 
@@ -64,8 +67,11 @@ fun SharedTransitionScope.PokemonDetailsScreen(
     val args =
         navController.getBackStackEntry<PokemonDetailsRoute>().toRoute<PokemonDetailsRoute>()
     val state = pokemonDetailsViewModel.pokemonDetailsState.collectAsStateWithLifecycle().value
+    val lifecycle = LocalLifecycleOwner.current
     LaunchedEffect(key1 = true) {
-        pokemonDetailsViewModel.executeRequestToGetPokemonDetails(args.pokemonDetailsUrl)
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            pokemonDetailsViewModel.executeRequestToGetPokemonDetails(args.pokemonDetailsUrl)
+        }
     }
 
     Scaffold(

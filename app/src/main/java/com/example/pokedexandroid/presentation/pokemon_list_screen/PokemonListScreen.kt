@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalSharedTransitionApi::class)
 
-package com.example.pokedexandroid.ui.pokemon_list_screen
+package com.example.pokedexandroid.presentation.pokemon_list_screen
 
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -33,12 +33,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.pokedexandroid.domain.model.PokemonList
 import com.example.pokedexandroid.navigations.PokemonDetailsRoute
-import com.example.pokedexandroid.ui.CustomCompose.CustomLoader
+import com.example.pokedexandroid.presentation.CustomCompose.CustomLoader
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @ExperimentalGlideComposeApi
@@ -59,7 +62,6 @@ fun SharedTransitionScope.PokemonListScreen(
         modifier = Modifier.background(Color(0xFF78909C))
     ) {
         if (state.pokemonList.isNotEmpty()) {
-
             LazyVerticalGrid(
                 state = scrollState,
                 modifier = Modifier

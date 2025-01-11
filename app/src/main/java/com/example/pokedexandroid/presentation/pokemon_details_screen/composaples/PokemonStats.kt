@@ -1,4 +1,4 @@
-package com.example.pokedexandroid.ui.pokemon_details_screen.composaples
+package com.example.pokedexandroid.presentation.pokemon_details_screen.composaples
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState

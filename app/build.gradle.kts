@@ -11,6 +11,8 @@ android {
     namespace = "com.example.pokedexandroid"
     compileSdk = 35
 
+    buildToolsVersion = "35.0.0"
+
     defaultConfig {
         applicationId = "com.example.pokedexandroid"
         minSdk = 28

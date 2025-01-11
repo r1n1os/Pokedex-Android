@@ -39,7 +39,7 @@ class PokemonListRepositoryImpl @Inject constructor(
         }
     }
 
-    private suspend fun savePokemonIntoLocalDatabase(pokemonEntityList: MutableList<PokemonDto>) =
+    private fun savePokemonIntoLocalDatabase(pokemonEntityList: MutableList<PokemonDto>) =
         flow {
             pokemonEntityList.forEach { pokemonEntity ->
                 pokemonDatabase.pokemonDao.insertPokemonEntity(pokemonEntity.toPokemonEntity())
@@ -47,7 +47,7 @@ class PokemonListRepositoryImpl @Inject constructor(
             emit(pokemonDatabase.pokemonDao.getListOfPokemon())
         }
 
-    private suspend fun getPokemonFromLocalDatabase() =
+    private fun getPokemonFromLocalDatabase() =
         flow {
             emit(pokemonDatabase.pokemonDao.getListOfPokemon())
         }

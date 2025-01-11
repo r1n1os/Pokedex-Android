@@ -1,4 +1,4 @@
-package com.example.pokedexandroid.ui.CustomCompose
+package com.example.pokedexandroid.presentation.CustomCompose
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat

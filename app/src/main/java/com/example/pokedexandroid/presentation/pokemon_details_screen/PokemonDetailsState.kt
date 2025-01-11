@@ -1,4 +1,4 @@
-package com.example.pokedexandroid.ui.pokemon_details_screen
+package com.example.pokedexandroid.presentation.pokemon_details_screen
 
 import com.example.pokedexandroid.domain.model.PokemonDetails
 

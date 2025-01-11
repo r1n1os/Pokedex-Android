@@ -24,9 +24,11 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
         val pokemonDetailsResponse: PokemonDetailsDto =
             pokemonDetailsApi.getPokemonDetails(pokemonDetailsUrl)
         val pokemonDetails = PokemonDetails("", "${Constants.POKEMON_GIF_BASE_URL}${pokemonDetailsResponse.id}.gif", Colors.getTypeColor(""), emptyList(), emptyList())
+
         savePokemonDetailsIntoLocalDatabase(pokemonDetailsResponse)
         savePokemonStatsIntoLocalDatabase(pokemonDetailsResponse)
         savePokemonTypesIntoLocalDatabase(pokemonDetailsResponse)
+
         getPokemonWithTypes(pokemonDetailsResponse).collect { pokemonWithTypes ->
             pokemonDetails.name = pokemonWithTypes.pokemonEntity.pokemonName
             pokemonDetails.types = pokemonWithTypes.types.map { it.toType() }
@@ -81,14 +83,14 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
         }
     }
 
-    private suspend fun getPokemonWithStatsByPokemonName(pokemonName: String) =
+    private fun getPokemonWithStatsByPokemonName(pokemonName: String) =
         flow {
             val pokemonWithStats =
                 pokemonDatabase.pokemonDao.getPokemonEntityWithItsStats(pokemonName = pokemonName)
             emit(pokemonWithStats)
         }
 
-    private suspend fun getPokemonWithTypes(pokemonDetailsResponse: PokemonDetailsDto) =
+    private fun getPokemonWithTypes(pokemonDetailsResponse: PokemonDetailsDto) =
         flow {
             emit(pokemonDatabase.pokemonDao.getPokemonWithTypes(pokemonName = pokemonDetailsResponse.name))
         }

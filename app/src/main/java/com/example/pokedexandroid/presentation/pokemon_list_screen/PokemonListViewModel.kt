@@ -1,4 +1,4 @@
-package com.example.pokedexandroid.ui.pokemon_list_screen
+package com.example.pokedexandroid.presentation.pokemon_list_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,13 +29,19 @@ class PokemonListViewModel @Inject constructor(
         val response = pokemonListRepository.executeRequestToGetPokemonList(null)
         ///The delay here has been added so the loading being more realistic
         delay(1500)
-        _pokemonListState.value = _pokemonListState.value.copy(pokemonList = response.data?.toList() ?: emptyList(), nextUrl = response.nextUrl, isLoading = false)
+        _pokemonListState.value = _pokemonListState.value.copy(
+            pokemonList = response.data?.toList() ?: emptyList(),
+            nextUrl = response.nextUrl,
+            isLoading = false)
     }
 
     fun executeRequestToGetNextListOfPokemon() = viewModelScope.launch(Dispatchers.IO) {
         val response = pokemonListRepository.executeRequestToGetPokemonList(_pokemonListState.value.nextUrl)
         ///The delay here has been added so the loading being more realistic
         delay(1500)
-        _pokemonListState.value = _pokemonListState.value.copy(pokemonList = response.data?.toList() ?: emptyList(), nextUrl = response.nextUrl, isLoading = false)
+        _pokemonListState.value = _pokemonListState.value.copy(
+            pokemonList = response.data?.toList() ?: emptyList(),
+            nextUrl = response.nextUrl,
+            isLoading = false)
     }
 }
