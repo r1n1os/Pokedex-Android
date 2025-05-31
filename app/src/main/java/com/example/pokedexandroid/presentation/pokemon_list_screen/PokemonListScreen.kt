@@ -33,9 +33,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
@@ -72,7 +69,11 @@ fun SharedTransitionScope.PokemonListScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(state.pokemonList) { pokemon ->
+                items(
+                    state.pokemonList,
+                    key = { pokemon ->
+                        pokemon.name
+                    }) { pokemon ->
                     reachEndOfList = false
                     PokemonCell(
                         navController = navController,
