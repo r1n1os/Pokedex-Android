@@ -12,6 +12,7 @@ android {
     compileSdk = 35
 
     buildToolsVersion = "35.0.0"
+    ndkVersion = "28.1.13356709"
 
     defaultConfig {
         applicationId = "com.example.pokedexandroid"
