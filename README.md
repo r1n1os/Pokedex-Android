@@ -22,7 +22,7 @@ Pokedex-Android was developed to showcase various modern Android development too
   * compileSdk: 35
   * targetSdk: 35
   * minSdk: 28
-  * gradle: 8.8.0
+  * gradle: 8.10.1
   * kotlin: 2.1.0
 
 ## Example: 
