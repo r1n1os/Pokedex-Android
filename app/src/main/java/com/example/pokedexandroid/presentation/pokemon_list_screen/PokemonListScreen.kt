@@ -132,7 +132,7 @@ private fun SharedTransitionScope.PokemonCell(
             GlideImage(
                 modifier = Modifier
                     .sharedElement(
-                    state = rememberSharedContentState(key = pokemon.name),
+                    rememberSharedContentState(key = pokemon.name),
                         animatedVisibilityScope = animatedVisibilityScope,
                         boundsTransform = {initial, target ->
                             tween(durationMillis = 1000)

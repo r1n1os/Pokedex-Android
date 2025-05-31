@@ -183,7 +183,7 @@ fun SharedTransitionScope.PokemonDetailsScreen(
                             .width(100.dp)
                             .height(100.dp)
                             .sharedElement(
-                                state = rememberSharedContentState(key = state.pokemonDetails.name),
+                                rememberSharedContentState(key = state.pokemonDetails.name),
                         animatedVisibilityScope = animatedVisibilityScope,
                         boundsTransform = {initial, target ->
                             tween(durationMillis = 1000)
