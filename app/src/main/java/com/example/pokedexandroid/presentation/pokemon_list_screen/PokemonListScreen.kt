@@ -34,14 +34,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
+import coil3.compose.AsyncImage
 import com.example.pokedexandroid.domain.model.PokemonList
 import com.example.pokedexandroid.navigations.PokemonDetailsRoute
 import com.example.pokedexandroid.presentation.CustomCompose.CustomLoader
 
 @OptIn(ExperimentalSharedTransitionApi::class)
-@ExperimentalGlideComposeApi
 @Composable
 fun SharedTransitionScope.PokemonListScreen(
     navController: NavController,
@@ -104,7 +102,6 @@ fun SharedTransitionScope.PokemonListScreen(
     }
 }
 
-@ExperimentalGlideComposeApi
 @Composable
 private fun SharedTransitionScope.PokemonCell(
     navController: NavController,
@@ -130,18 +127,18 @@ private fun SharedTransitionScope.PokemonCell(
         Box(
             contentAlignment = Alignment.Center
         ) {
-            GlideImage(
+            AsyncImage(
+                model = pokemon.photoUrl,
+                alignment = Alignment.Center,
+                contentDescription = "Network Image",
                 modifier = Modifier
                     .sharedElement(
-                    rememberSharedContentState(key = pokemon.name),
+                        rememberSharedContentState(key = pokemon.name),
                         animatedVisibilityScope = animatedVisibilityScope,
                         boundsTransform = {initial, target ->
                             tween(durationMillis = 1000)
                         }
-                ),
-                model = pokemon.photoUrl ?: "",
-                alignment = Alignment.Center,
-                contentDescription = "Network Image"
+                    ),
             )
         }
     }
