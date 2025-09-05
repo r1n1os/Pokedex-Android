@@ -2,7 +2,7 @@ package com.example.pokedexandroid.data.repository
 
 import androidx.compose.ui.graphics.Color
 import com.example.pokedexandroid.data.local_database.PokemonDatabase
-import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity
+import com.example.pokedexandroid.data.local_database.entities.pokemon_entity.PokemonEntity
 import com.example.pokedexandroid.data.local_database.relationships.PokemonAndStatsCrossRef
 import com.example.pokedexandroid.data.local_database.relationships.PokemonAndTypesCrossRef
 import com.example.pokedexandroid.data.remote.pokemon_details.PokemonDetailsApi
@@ -29,16 +29,13 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
         savePokemonStatsIntoLocalDatabase(pokemonDetailsResponse)
         savePokemonTypesIntoLocalDatabase(pokemonDetailsResponse)
 
-        getPokemonWithTypes(pokemonDetailsResponse).collect { pokemonWithTypes ->
-            pokemonDetails.name = pokemonWithTypes.pokemonEntity.pokemonName
-            pokemonDetails.types = pokemonWithTypes.types.map { it.toType() }
+        getAllPokemonDetails(pokemonDetailsResponse).collect { pokemonWithStatsAndTypes ->
+            pokemonDetails.name = pokemonWithStatsAndTypes.pokemon.pokemonName
+            pokemonDetails.types = pokemonWithStatsAndTypes.types.map { it.toType() }
             if(pokemonDetails.color == Color.White) {
                 pokemonDetails.color = Colors.getTypeColor(pokemonDetails.types.first().name)
             }
-
-            getPokemonWithStatsByPokemonName(pokemonName = pokemonDetailsResponse.name).collect { pokemonWithStats ->
-                pokemonDetails.stats = pokemonWithStats.stats.map { it.toStats() }
-            }
+            pokemonDetails.stats = pokemonWithStatsAndTypes.stats.map { it.toStats() }
         }
 
         return Resource.Success(
@@ -83,15 +80,8 @@ class PokemonDetailsRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun getPokemonWithStatsByPokemonName(pokemonName: String) =
+    private fun getAllPokemonDetails(pokemonDetailsResponse: PokemonDetailsDto) =
         flow {
-            val pokemonWithStats =
-                pokemonDatabase.pokemonDao.getPokemonEntityWithItsStats(pokemonName = pokemonName)
-            emit(pokemonWithStats)
-        }
-
-    private fun getPokemonWithTypes(pokemonDetailsResponse: PokemonDetailsDto) =
-        flow {
-            emit(pokemonDatabase.pokemonDao.getPokemonWithTypes(pokemonName = pokemonDetailsResponse.name))
+            emit(pokemonDatabase.pokemonDao.getAllPokemonDetails(pokemonName = pokemonDetailsResponse.name))
         }
 }

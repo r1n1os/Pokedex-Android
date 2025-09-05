@@ -9,9 +9,9 @@ plugins {
 
 android {
     namespace = "com.example.pokedexandroid"
-    compileSdk = 35
+    compileSdk = 36
 
-    buildToolsVersion = "35.0.0"
+    buildToolsVersion = "36.0.0"
     ndkVersion = "28.1.13356709"
 
     defaultConfig {
@@ -108,9 +108,10 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
     /**
-     * Glide Image Network Loader
+     * Coil
      * */
-    implementation(libs.glide.compose)
+    implementation(libs.coil)
+    implementation(libs.coil.network.okhttp)
     /**
      * Testing
      * */

@@ -1,6 +1,6 @@
 package com.example.pokedexandroid.data.remote.dto
 
-import com.example.pokedexandroid.data.local_database.types_entity.TypesEntity
+import com.example.pokedexandroid.data.local_database.entities.types_entity.TypesEntity
 
 data class TypeDetailsDto(
     val name: String,

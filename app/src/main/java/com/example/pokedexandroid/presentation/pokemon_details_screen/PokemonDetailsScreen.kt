@@ -46,31 +46,28 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.toRoute
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
+import coil3.compose.AsyncImage
 import com.example.pokedexandroid.R
-import com.example.pokedexandroid.navigations.PokemonDetailsRoute
 import com.example.pokedexandroid.presentation.CustomCompose.CustomLoader
 import com.example.pokedexandroid.presentation.pokemon_details_screen.composaples.PokemonStat
 import com.example.pokedexandroid.utils.capitalizeTheFirstLetter
 
 
-@OptIn(ExperimentalGlideComposeApi::class, ExperimentalSharedTransitionApi::class)
+@OptIn(ExperimentalSharedTransitionApi::class)
 @ExperimentalMaterial3Api
 @Composable
 fun SharedTransitionScope.PokemonDetailsScreen(
     navController: NavController,
     animatedVisibilityScope: AnimatedVisibilityScope,
-    pokemonDetailsViewModel: PokemonDetailsViewModel = hiltViewModel()
+    pokemonDetailsViewModel: PokemonDetailsViewModel = hiltViewModel(),
+    pokemonDetailsUrl: String,
+    onBackClick: () -> Unit = {}
 ) {
-    val args =
-        navController.getBackStackEntry<PokemonDetailsRoute>().toRoute<PokemonDetailsRoute>()
     val state = pokemonDetailsViewModel.pokemonDetailsState.collectAsStateWithLifecycle().value
     val lifecycle = LocalLifecycleOwner.current
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = pokemonDetailsUrl) {
         lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            pokemonDetailsViewModel.executeRequestToGetPokemonDetails(args.pokemonDetailsUrl)
+            pokemonDetailsViewModel.executeRequestToGetPokemonDetails(pokemonDetailsUrl)
         }
     }
 
@@ -85,7 +82,7 @@ fun SharedTransitionScope.PokemonDetailsScreen(
         ) {
             if (state.pokemonDetails == null) {
                 IconButton(onClick = {
-                    navController.popBackStack()
+                    onBackClick()
                 }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -175,7 +172,7 @@ fun SharedTransitionScope.PokemonDetailsScreen(
                     modifier = Modifier.fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    GlideImage(
+                    AsyncImage(
                         modifier = Modifier
                             .padding(
                                 top = 130.dp
@@ -184,14 +181,13 @@ fun SharedTransitionScope.PokemonDetailsScreen(
                             .height(100.dp)
                             .sharedElement(
                                 rememberSharedContentState(key = state.pokemonDetails.name),
-                        animatedVisibilityScope = animatedVisibilityScope,
-                        boundsTransform = {initial, target ->
-                            tween(durationMillis = 1000)
-                        }
-                    ),
-                        model = state.pokemonDetails?.photoUrl ?: "",
-                        alignment = Alignment.TopCenter,
-                        contentDescription = "Network Image"
+                                animatedVisibilityScope = animatedVisibilityScope,
+                                boundsTransform = { initial, target ->
+                                    tween(durationMillis = 1000)
+                                },
+                            ),
+                        model = state.pokemonDetails.photoUrl,
+                        contentDescription = null
                     )
                     Spacer(
                         modifier = Modifier

@@ -12,7 +12,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import androidx.navigation.toRoute
 import com.example.pokedexandroid.navigations.PokemonDetailsRoute
 import com.example.pokedexandroid.navigations.PokemonListRoute
 import com.example.pokedexandroid.presentation.pokemon_details_screen.PokemonDetailsScreen
@@ -21,7 +21,6 @@ import com.example.pokedexandroid.presentation.theme.PokedexAndroidTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @OptIn(ExperimentalSharedTransitionApi::class)
-@ExperimentalGlideComposeApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,10 +41,15 @@ class MainActivity : ComponentActivity() {
                                 animatedVisibilityScope = this
                             )
                         }
-                        composable<PokemonDetailsRoute> {
+                        composable<PokemonDetailsRoute> { backStackEntry ->
+                            val pokemonDetails: PokemonDetailsRoute = backStackEntry.toRoute()
                             PokemonDetailsScreen(
                                 navController = navController,
-                                animatedVisibilityScope = this)
+                                animatedVisibilityScope = this,
+                                pokemonDetailsUrl = pokemonDetails.pokemonDetailsUrl ?: "",
+                                onBackClick = {
+                                    navController.popBackStack()
+                                })
                         }
                     }
                 }

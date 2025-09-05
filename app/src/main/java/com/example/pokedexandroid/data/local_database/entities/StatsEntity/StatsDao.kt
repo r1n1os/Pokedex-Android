@@ -1,10 +1,9 @@
-package com.example.pokedexandroid.data.local_database.StatsEntity
+package com.example.pokedexandroid.data.local_database.entities.StatsEntity
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
-import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity
 
 @Dao
 interface StatsDao {

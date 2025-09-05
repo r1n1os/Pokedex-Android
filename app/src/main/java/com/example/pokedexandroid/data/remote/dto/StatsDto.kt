@@ -1,6 +1,6 @@
 package com.example.pokedexandroid.data.remote.dto
 
-import com.example.pokedexandroid.data.local_database.StatsEntity.StatsEntity
+import com.example.pokedexandroid.data.local_database.entities.StatsEntity.StatsEntity
 import com.google.gson.annotations.SerializedName
 
 data class StatsDto(
