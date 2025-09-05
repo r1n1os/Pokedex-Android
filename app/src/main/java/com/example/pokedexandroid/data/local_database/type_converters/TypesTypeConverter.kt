@@ -1,7 +1,7 @@
 package com.example.pokedexandroid.data.local_database.type_converters
 
 import androidx.room.TypeConverter
-import com.example.pokedexandroid.data.local_database.types_entity.TypesEntity
+import com.example.pokedexandroid.data.local_database.entities.types_entity.TypesEntity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

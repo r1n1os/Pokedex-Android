@@ -1,7 +1,7 @@
 package com.example.pokedexandroid.data.remote.dto
 
 import android.net.Uri
-import com.example.pokedexandroid.data.local_database.pokemon_entity.PokemonEntity
+import com.example.pokedexandroid.data.local_database.entities.pokemon_entity.PokemonEntity
 import com.example.pokedexandroid.utils.Constants
 import com.google.gson.annotations.SerializedName
 

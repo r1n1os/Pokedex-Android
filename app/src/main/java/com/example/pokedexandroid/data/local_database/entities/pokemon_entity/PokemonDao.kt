@@ -1,11 +1,10 @@
-package com.example.pokedexandroid.data.local_database.pokemon_entity
+package com.example.pokedexandroid.data.local_database.entities.pokemon_entity
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
-import com.example.pokedexandroid.data.local_database.pojo.PokemonWithStats
-import com.example.pokedexandroid.data.local_database.pojo.PokemonWithTypes
+import com.example.pokedexandroid.data.local_database.pojo.PokemonWithStatsAndTypes
 import com.example.pokedexandroid.data.local_database.relationships.PokemonAndStatsCrossRef
 import com.example.pokedexandroid.data.local_database.relationships.PokemonAndTypesCrossRef
 
@@ -34,14 +33,8 @@ interface PokemonDao {
     suspend fun updatePokemonEntityFromPokemonDetails(pokemonName: String, order: Int)
 
     @Transaction
-    @Query(
-        "SELECT * FROM pokemon WHERE pokemon.pokemonName=:pokemonName"
-    )
-    suspend fun getPokemonEntityWithItsStats(pokemonName: String): PokemonWithStats
-
-    @Transaction
     @Query("SELECT * FROM pokemon WHERE pokemon.pokemonName=:pokemonName")
-    suspend fun getPokemonWithTypes(pokemonName: String): PokemonWithTypes
+    suspend fun getAllPokemonDetails(pokemonName: String): PokemonWithStatsAndTypes
 
     @Upsert
     suspend fun insertPokemonAndStatsCrossRef(test: PokemonAndStatsCrossRef)
