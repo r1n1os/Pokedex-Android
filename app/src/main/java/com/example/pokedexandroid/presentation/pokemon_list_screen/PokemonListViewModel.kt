@@ -1,6 +1,5 @@
 package com.example.pokedexandroid.presentation.pokemon_list_screen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedexandroid.domain.repository.PokemonListRepository

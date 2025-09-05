@@ -2,7 +2,6 @@
 
 package com.example.pokedexandroid.presentation.pokemon_details_screen
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
@@ -32,7 +31,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,11 +46,8 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.toRoute
 import coil3.compose.AsyncImage
 import com.example.pokedexandroid.R
-import com.example.pokedexandroid.navigations.PokemonDetailsRoute
 import com.example.pokedexandroid.presentation.CustomCompose.CustomLoader
 import com.example.pokedexandroid.presentation.pokemon_details_screen.composaples.PokemonStat
 import com.example.pokedexandroid.utils.capitalizeTheFirstLetter
@@ -64,18 +59,15 @@ import com.example.pokedexandroid.utils.capitalizeTheFirstLetter
 fun SharedTransitionScope.PokemonDetailsScreen(
     navController: NavController,
     animatedVisibilityScope: AnimatedVisibilityScope,
-    pokemonDetailsViewModel: PokemonDetailsViewModel = hiltViewModel()
+    pokemonDetailsViewModel: PokemonDetailsViewModel = hiltViewModel(),
+    pokemonDetailsUrl: String,
+    onBackClick: () -> Unit = {}
 ) {
-    val currentBackStackEntry = navController.currentBackStackEntryAsState().value
-    val args = remember(currentBackStackEntry) {
-        currentBackStackEntry?.toRoute<PokemonDetailsRoute>()
-    }
-    Log.d("TAG", "PokemonDetailsScreen: ${args?.pokemonDetailsUrl} ")
     val state = pokemonDetailsViewModel.pokemonDetailsState.collectAsStateWithLifecycle().value
     val lifecycle = LocalLifecycleOwner.current
-    LaunchedEffect(key1 = args?.pokemonDetailsUrl) {
+    LaunchedEffect(key1 = pokemonDetailsUrl) {
         lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            pokemonDetailsViewModel.executeRequestToGetPokemonDetails(args?.pokemonDetailsUrl)
+            pokemonDetailsViewModel.executeRequestToGetPokemonDetails(pokemonDetailsUrl)
         }
     }
 
@@ -90,7 +82,7 @@ fun SharedTransitionScope.PokemonDetailsScreen(
         ) {
             if (state.pokemonDetails == null) {
                 IconButton(onClick = {
-                    navController.popBackStack()
+                    onBackClick()
                 }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,

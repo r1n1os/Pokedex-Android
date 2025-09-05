@@ -2,7 +2,6 @@
 
 package com.example.pokedexandroid.presentation.pokemon_list_screen
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
