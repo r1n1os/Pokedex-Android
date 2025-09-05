@@ -3,6 +3,7 @@
 package com.example.pokedexandroid.presentation.pokemon_details_screen
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
@@ -67,9 +68,10 @@ fun SharedTransitionScope.PokemonDetailsScreen(
     pokemonDetailsViewModel: PokemonDetailsViewModel = hiltViewModel()
 ) {
     val currentBackStackEntry = navController.currentBackStackEntryAsState().value
-    val args = remember(currentBackStackEntry) { // Keyed by the NavBackStackEntry
+    val args = remember(currentBackStackEntry) {
         currentBackStackEntry?.toRoute<PokemonDetailsRoute>()
     }
+    Log.d("TAG", "PokemonDetailsScreen: ${args?.pokemonDetailsUrl} ")
     val state = pokemonDetailsViewModel.pokemonDetailsState.collectAsStateWithLifecycle().value
     val lifecycle = LocalLifecycleOwner.current
     LaunchedEffect(key1 = true) {

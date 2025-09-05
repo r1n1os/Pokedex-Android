@@ -111,6 +111,7 @@ dependencies {
      * Coil
      * */
     implementation(libs.coil)
+    implementation(libs.coil.network.okhttp)
     /**
      * Testing
      * */

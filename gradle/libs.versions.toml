@@ -18,7 +18,7 @@ coroutines = "1.10.2"
 composeNavigation = "2.9.3"
 serialization = "1.9.0"
 hiltNavigation = "1.2.0"
-coil = "3.0.0"
+coil = "3.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -50,6 +50,8 @@ navigation-compose = { module = "androidx.navigation:navigation-compose", versio
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization"}
 hilt-navigation-compose = {module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation"}
 coil = {module = "io.coil-kt.coil3:coil-compose", version.ref = "coil"}
+coil-network-okhttp = {module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil"}
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
