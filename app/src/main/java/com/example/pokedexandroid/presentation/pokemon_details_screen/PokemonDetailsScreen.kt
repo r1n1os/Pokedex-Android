@@ -2,7 +2,6 @@
 
 package com.example.pokedexandroid.presentation.pokemon_details_screen
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -74,7 +73,7 @@ fun SharedTransitionScope.PokemonDetailsScreen(
     Log.d("TAG", "PokemonDetailsScreen: ${args?.pokemonDetailsUrl} ")
     val state = pokemonDetailsViewModel.pokemonDetailsState.collectAsStateWithLifecycle().value
     val lifecycle = LocalLifecycleOwner.current
-    LaunchedEffect(key1 = true) {
+    LaunchedEffect(key1 = args?.pokemonDetailsUrl) {
         lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
             pokemonDetailsViewModel.executeRequestToGetPokemonDetails(args?.pokemonDetailsUrl)
         }
