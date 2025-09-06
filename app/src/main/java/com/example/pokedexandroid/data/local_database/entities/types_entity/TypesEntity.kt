@@ -2,7 +2,7 @@ package com.example.pokedexandroid.data.local_database.entities.types_entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.pokedexandroid.domain.model.Type
+import com.example.pokedexandroid.domain.model.TypeModel
 
 @Entity(tableName = "Types")
 data class TypesEntity(
@@ -10,11 +10,4 @@ data class TypesEntity(
     val typeName: String,
     val url: String,
     val pokemonEntityName: String //This is the primary key of pokemonEntity
-) {
-    fun toType(): Type {
-        return  Type(
-            name = typeName,
-            url = url
-        )
-    }
-}
+)

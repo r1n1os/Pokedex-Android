@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil3.compose.SubcomposeAsyncImage
-import com.example.pokedexandroid.domain.model.PokemonList
+import com.example.pokedexandroid.domain.model.PokemonListModel
 import com.example.pokedexandroid.navigations.PokemonDetailsRoute
 import com.example.pokedexandroid.presentation.CustomCompose.CustomLoader
 
@@ -107,7 +107,7 @@ fun SharedTransitionScope.PokemonListScreen(
 private fun SharedTransitionScope.PokemonCell(
     navController: NavController,
     animatedVisibilityScope: AnimatedVisibilityScope,
-    pokemon: PokemonList
+    pokemon: PokemonListModel
 ) {
     Card(
         modifier =
