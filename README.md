@@ -19,11 +19,11 @@ Pokedex-Android was developed to showcase various modern Android development too
   * [Shared Element Transitions in Compose](https://developer.android.com/develop/ui/compose/animation/shared-elements)
 
 ## Basic Configurations:
-  * compileSdk: 35
-  * targetSdk: 35
+  * compileSdk: 36
+  * targetSdk: 36
   * minSdk: 28
-  * gradle: 8.10.1
-  * kotlin: 2.1.0
+  * gradle: 8.13.0
+  * kotlin: 2.2.10
 
 ## Example: 
 <img src="https://github.com/user-attachments/assets/fe2cc945-359a-467e-8dbf-d01154f1898a" width="200" alt="Pokemon List Screen">
