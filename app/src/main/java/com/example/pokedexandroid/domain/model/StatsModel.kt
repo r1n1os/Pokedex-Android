@@ -1,6 +1,6 @@
 package com.example.pokedexandroid.domain.model
 
-data class Type(
+data class StatsModel(
     val name: String,
-    val url: String
+    val value: Int
 )

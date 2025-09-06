@@ -27,11 +27,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.example.pokedexandroid.domain.model.Stats
+import com.example.pokedexandroid.domain.model.StatsModel
 import com.example.pokedexandroid.utils.HelperMethods
 
 @Composable
-fun PokemonStat(stat: Stats, color: Color) {
+fun PokemonStat(stat: StatsModel, color: Color) {
     var progress by remember { mutableStateOf(0F) }
     val progressAnimDuration = 5000
     val progressAnimation by animateFloatAsState(
