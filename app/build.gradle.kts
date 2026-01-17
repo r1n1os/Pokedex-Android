@@ -40,8 +40,8 @@ android {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_21.toString()
+    compileOptions {
+        //languageVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0
     }
     buildFeatures {
         compose = true
