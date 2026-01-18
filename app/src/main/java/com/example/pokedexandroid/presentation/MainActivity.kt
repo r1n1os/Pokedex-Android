@@ -13,8 +13,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.example.pokedexandroid.navigations.PokemonDetailsRoute
-import com.example.pokedexandroid.navigations.PokemonListRoute
+import com.example.pokedexandroid.navigations.NavigationHandler
+import com.example.pokedexandroid.navigations.routes.PokemonDetailsRoute
+import com.example.pokedexandroid.navigations.routes.PokemonListRoute
 import com.example.pokedexandroid.presentation.pokemon_details_screen.PokemonDetailsScreen
 import com.example.pokedexandroid.presentation.pokemon_list_screen.PokemonListScreen
 import com.example.pokedexandroid.presentation.theme.PokedexAndroidTheme
@@ -28,31 +29,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PokedexAndroidTheme {
-                SharedTransitionLayout {
-                    val navController = rememberNavController()
-
-                    NavHost(
-                        navController = navController,
-                        startDestination = PokemonListRoute
-                    ) {
-                        composable<PokemonListRoute> {
-                            PokemonListScreen(
-                                navController = navController,
-                                animatedVisibilityScope = this
-                            )
-                        }
-                        composable<PokemonDetailsRoute> { backStackEntry ->
-                            val pokemonDetails: PokemonDetailsRoute = backStackEntry.toRoute()
-                            PokemonDetailsScreen(
-                                navController = navController,
-                                animatedVisibilityScope = this,
-                                pokemonDetailsUrl = pokemonDetails.pokemonDetailsUrl ?: "",
-                                onBackClick = {
-                                    navController.popBackStack()
-                                })
-                        }
-                    }
-                }
+                NavigationHandler.AppNavDisplay()
             }
         }
     }

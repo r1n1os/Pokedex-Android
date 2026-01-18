@@ -28,6 +28,13 @@ android {
 
     buildTypes {
         release {
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+        debug {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -74,6 +81,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.materialIconsExtended)
+    implementation(libs.androidx.adaptive.navigation3)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
@@ -110,6 +118,13 @@ dependencies {
      * */
     implementation(libs.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
+    /**
+     * Nav 3
+     * */
+    implementation(libs.nav3.runtime)
+    implementation(libs.nav3.ui)
+    implementation(libs.androidx.compose.material3.adaptive)
+    implementation(libs.kotlinx.serialization.core)
     /**
      * Coil
      * */

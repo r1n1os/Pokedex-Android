@@ -2,10 +2,7 @@
 
 package com.example.pokedexandroid.presentation.pokemon_details_screen
 
-import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -45,9 +42,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.pokedexandroid.R
+import com.example.pokedexandroid.navigations.LocalNavBackstack
 import com.example.pokedexandroid.presentation.CustomCompose.CustomLoader
 import com.example.pokedexandroid.presentation.pokemon_details_screen.composaples.PokemonStat
 import com.example.pokedexandroid.utils.capitalizeTheFirstLetter
@@ -56,13 +53,11 @@ import com.example.pokedexandroid.utils.capitalizeTheFirstLetter
 @OptIn(ExperimentalSharedTransitionApi::class)
 @ExperimentalMaterial3Api
 @Composable
-fun SharedTransitionScope.PokemonDetailsScreen(
-    navController: NavController,
-    animatedVisibilityScope: AnimatedVisibilityScope,
+fun PokemonDetailsScreen(
     pokemonDetailsViewModel: PokemonDetailsViewModel = hiltViewModel(),
     pokemonDetailsUrl: String,
-    onBackClick: () -> Unit = {}
 ) {
+    val backStack = LocalNavBackstack.current
     val state = pokemonDetailsViewModel.pokemonDetailsState.collectAsStateWithLifecycle().value
     val lifecycle = LocalLifecycleOwner.current
     LaunchedEffect(key1 = pokemonDetailsUrl) {
@@ -82,7 +77,7 @@ fun SharedTransitionScope.PokemonDetailsScreen(
         ) {
             if (state.pokemonDetails == null) {
                 IconButton(onClick = {
-                    onBackClick()
+                    backStack.removeLastOrNull()
                 }) {
                     Icon(
                         imageVector = Icons.Filled.ArrowBack,
@@ -114,7 +109,7 @@ fun SharedTransitionScope.PokemonDetailsScreen(
                     modifier = Modifier.fillMaxSize(),
                 ) {
                     IconButton(onClick = {
-                        navController.popBackStack()
+                        backStack.removeLastOrNull()
                     }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
@@ -178,14 +173,7 @@ fun SharedTransitionScope.PokemonDetailsScreen(
                                 top = 130.dp
                             )
                             .width(100.dp)
-                            .height(100.dp)
-                            .sharedElement(
-                                rememberSharedContentState(key = state.pokemonDetails.name),
-                                animatedVisibilityScope = animatedVisibilityScope,
-                                boundsTransform = { initial, target ->
-                                    tween(durationMillis = 1000)
-                                },
-                            ),
+                            .height(100.dp),
                         model = state.pokemonDetails.photoUrl,
                         contentDescription = null
                     )

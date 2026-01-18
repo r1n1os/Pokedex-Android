@@ -2,10 +2,7 @@
 
 package com.example.pokedexandroid.presentation.pokemon_list_screen
 
-import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
-import androidx.compose.animation.SharedTransitionScope
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,17 +31,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import coil3.compose.SubcomposeAsyncImage
 import com.example.pokedexandroid.domain.model.PokemonListModel
-import com.example.pokedexandroid.navigations.PokemonDetailsRoute
+import com.example.pokedexandroid.navigations.LocalNavBackstack
+import com.example.pokedexandroid.navigations.routes.PokemonDetailsRoute
 import com.example.pokedexandroid.presentation.CustomCompose.CustomLoader
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun SharedTransitionScope.PokemonListScreen(
-    navController: NavController,
-    animatedVisibilityScope: AnimatedVisibilityScope,
+fun PokemonListScreen(
     pokemonListViewModel: PokemonListViewModel = hiltViewModel()
 ) {
     val state = pokemonListViewModel.pokemonListState.collectAsState().value
@@ -75,8 +70,6 @@ fun SharedTransitionScope.PokemonListScreen(
                     }) { pokemon ->
                     reachEndOfList = false
                     PokemonCell(
-                        navController = navController,
-                        animatedVisibilityScope = animatedVisibilityScope,
                         pokemon = pokemon
                     )
                 }
@@ -104,11 +97,11 @@ fun SharedTransitionScope.PokemonListScreen(
 }
 
 @Composable
-private fun SharedTransitionScope.PokemonCell(
-    navController: NavController,
-    animatedVisibilityScope: AnimatedVisibilityScope,
+private fun PokemonCell(
     pokemon: PokemonListModel
 ) {
+    val backStack = LocalNavBackstack.current
+
     Card(
         modifier =
         Modifier
@@ -119,7 +112,7 @@ private fun SharedTransitionScope.PokemonCell(
         ),
         shape = RoundedCornerShape(15),
         onClick = {
-            navController.navigate(
+            backStack.add(
                 PokemonDetailsRoute(
                     pokemonDetailsUrl = pokemon.extraInfoUrl,
                 )
@@ -134,13 +127,6 @@ private fun SharedTransitionScope.PokemonCell(
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .fillMaxSize()
-                    .sharedElement(
-                        rememberSharedContentState(key = pokemon.name),
-                        animatedVisibilityScope = animatedVisibilityScope,
-                        boundsTransform = {initial, target ->
-                            tween(durationMillis = 1000)
-                        }
-                    )
             )
         }
     }
