@@ -133,9 +133,15 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.coil.network.okhttp)
     /**
-     * Testing
+     * Testing - Unit Test
      * */
     testImplementation(libs.junit)
+    testImplementation(libs.mockito)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.coroutines.test)
+    /**
+     * Testing - Instrumentation Test
+     * */
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
