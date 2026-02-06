@@ -49,6 +49,9 @@ fun PokemonListScreen(
         mutableStateOf(false)
     }
 
+    LaunchedEffect(Unit) {
+        pokemonListViewModel.executeRequestToGetListOfPokemon()
+    }
     Surface(
         modifier = Modifier.background(Color(0xFF78909C))
     ) {

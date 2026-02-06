@@ -2,8 +2,10 @@ package com.example.pokedexandroid.presentation.pokemon_list_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pokedexandroid.di.IoDispatcher
 import com.example.pokedexandroid.domain.repository.PokemonListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,18 +16,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PokemonListViewModel @Inject constructor(
-    private val pokemonListRepository: PokemonListRepository
+    private val pokemonListRepository: PokemonListRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _pokemonListState = MutableStateFlow(PokemonListState())
     val pokemonListState: StateFlow<PokemonListState>
         get() = _pokemonListState
 
-    init {
-        executeRequestToGetListOfPokemon()
-    }
-
-    private fun executeRequestToGetListOfPokemon() = viewModelScope.launch(Dispatchers.IO) {
+    fun executeRequestToGetListOfPokemon() = viewModelScope.launch(ioDispatcher) {
         _pokemonListState.value = _pokemonListState.value.copy(isLoading = true)
         val response = pokemonListRepository.executeRequestToGetPokemonList(null)
 
@@ -40,7 +39,7 @@ class PokemonListViewModel @Inject constructor(
         }
     }
 
-    fun executeRequestToGetNextListOfPokemon() = viewModelScope.launch(Dispatchers.IO) {
+    fun executeRequestToGetNextListOfPokemon() = viewModelScope.launch(ioDispatcher) {
         val response = pokemonListRepository.executeRequestToGetPokemonList(_pokemonListState.value.nextUrl)
         ///The delay here has been added so the loading being more realistic
         delay(1500)
