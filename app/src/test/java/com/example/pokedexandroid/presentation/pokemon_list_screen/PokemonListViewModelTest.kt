@@ -124,4 +124,53 @@ class PokemonListViewModelTest {
         // Assertion : Validation of the expected result
         assertEquals(3, result.size)
     }
+
+    @Test
+    fun `fetching first page of pokemon details should failed`() = runTest {
+        // Given: Mock the repository response
+       /* val mockPokemonListResponse = mutableListOf<PokemonListModel>(
+            PokemonListModel(
+                name = "Bulbasaur",
+                photoUrl = "",
+                extraInfoUrl = ""
+            ),
+            PokemonListModel(
+                name = "Pikachu",
+                photoUrl = "",
+                extraInfoUrl = ""
+            ),
+            PokemonListModel(
+                name = "Charmander",
+                photoUrl = "",
+                extraInfoUrl = ""
+            )
+        )*/
+
+        // Explicitly type the Resource
+        val errorResource: Resource<MutableList<PokemonListModel>> =
+            Resource.Error("Server Error", null)
+
+        whenever(repository.executeRequestToGetPokemonList(null))
+            .thenReturn(errorResource)
+
+        // When: executeRequestToGetListOfPokemon() is called
+        viewModel.executeRequestToGetListOfPokemon()
+
+        // Give coroutines time to complete
+        advanceUntilIdle()
+
+        // Debug: Verify the repository was called
+        verify(repository).executeRequestToGetPokemonList(null)
+
+        // Debug: Print the actual state
+        println("State: ${viewModel.pokemonListState.value}")
+        println("Pokemon list size: ${viewModel.pokemonListState.value.error}")
+
+
+        // Then: Get the result
+        val result = viewModel.pokemonListState.value.error
+
+        // Assertion : Validation of the expected result
+        assertEquals("Server Error", result)
+    }
 }
